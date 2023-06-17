@@ -53,6 +53,9 @@ html {
   align-items: center;
   font-size: 3rem;
   justify-content: space-between;
+  flex-wrap: wrap;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .header .title {
