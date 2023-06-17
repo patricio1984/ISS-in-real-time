@@ -8,7 +8,7 @@ const ISSDataProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchData = () => {
-      fetch('https://cors-anywhere.herokuapp.com/gpushhttp://api.open-notify.org/iss-now.json')
+      fetch('https://cors-anywhere.herokuapp.com/http://api.open-notify.org/iss-now.json')
         .then(response => {
           if (response.status !== 200) {
             throw new Error('Error en la solicitud');
