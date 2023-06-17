@@ -1,38 +1,43 @@
 import React, { useState, useEffect } from 'react';
+import { DarkModeToggle } from '@anatoliygatt/dark-mode-toggle';
 
 const Header = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
 
-  const handleToggle = () => {
-    setIsDarkMode(!isDarkMode);
-  };
+  const [mode, setMode] = useState('dark');
 
   useEffect(() => {
-    const body = document.body;
-    if (isDarkMode) {
-      body.classList.add('dark-mode');
+    if (mode !== 'dark') {
+      document.body.classList.add('light-mode');
     } else {
-      body.classList.remove('dark-mode');
+      document.body.classList.remove('light-mode');
     }
-  }, [isDarkMode]);
+  }, [mode]);
 
   return (
     <header className="header">
         <div className="wrapper">
             <h1 className="title">See where is the ISS in real time</h1>
 
-            <label className="switch">
-            <input
-                className="checkbox--toggle"
-                type="checkbox"
-                checked={isDarkMode}
-                aria-checked={isDarkMode}
-                onChange={handleToggle}
-                role="switch"
+            <DarkModeToggle
+                ariaLabel="Toggle color scheme"
+                mode={mode}
+                dark="Dark"
+                light="Light"
+                size="sm"
+                inactiveLabelColor="#CCCCCC"
+                activeLabelColor="#333333"
+                activeTrackColor="#e2e8f0"
+                activeTrackColorOnHover="#e2e8f0"
+                activeTrackColorOnActive="#cbd5e1"
+                inactiveTrackColor="#334155"
+                inactiveTrackColorOnHover="#1e293b"
+                inactiveTrackColorOnActive="#0f172a"
+                inactiveThumbColor="#e2e8f0" 
+                activeThumbColor="#1e293b"
+                onChange={(mode) => {
+                    setMode(mode);
+                }}
             />
-            <span className="slider round"></span>
-            Light mode
-            </label>
        </div>
     </header>
   );
