@@ -8,7 +8,7 @@ const ISSDataProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchData = () => {
-      fetch('http://api.open-notify.org/iss-now.json')
+      fetch('/api')
         .then(response => {
           if (response.status !== 200) {
             throw new Error('Error en la solicitud');
