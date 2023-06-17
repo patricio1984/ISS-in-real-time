@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Header from './components/Header';
 import Map from './components/Map';
 import ISSDataProvider from './components/ISSDataProvider';
 import FooterData from './components/FooterData';
@@ -9,9 +10,7 @@ import './App.css';
 const App = () => {
   return (
     <>
-      <header className="header">
-        <h1 className="wrapper">See where is the ISS in real time</h1>
-      </header>
+      <Header />
       <main className="main wrapper">
         <section className="section">
           <ISSDataProvider>
