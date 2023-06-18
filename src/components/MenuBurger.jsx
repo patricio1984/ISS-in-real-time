@@ -60,7 +60,7 @@ const MenuBurger = () => {
                                 mode={mode}
                                 dark="Dark"
                                 light="Light"
-                                size="sm"
+                                size="md"
                                 inactiveLabelColor="#CCCCCC"
                                 activeLabelColor="#333333"
                                 activeTrackColor="#e2e8f0"
@@ -75,6 +75,18 @@ const MenuBurger = () => {
                                     setMode(mode);
                             }}
                             />
+                        </li>
+
+                        <li className="menulist">
+                            <a className="menuitem" href="https://www.linkedin.com/in/patriciomainero/" target="_blank">About me</a>
+                        </li>
+
+                        <li className="menulist">
+                            <a className="menuitem" href="https://patricio1984.github.io/port/" target="_blank">My portfolio page</a>
+                        </li>
+
+                        <li className="menulist">
+                            <a className="menuitem" href="https://github.com/patricio1984" target="_blank">My Github repositories</a>
                         </li>
                     </ul>
                 </Menu>   
