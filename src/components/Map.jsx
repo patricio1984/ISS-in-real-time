@@ -31,7 +31,7 @@ const Map = ({ latitude, longitude }) => {
   return (
     <div className="map-container--wrapper">
       <MapContainer className="map-container" center={[latitude, longitude]} zoom={3}>
-        <TileLayer url="https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}" />
+        <TileLayer url="https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}" detectRetina={true} />
         <UpdateMarker />
       </MapContainer>
     </div>
