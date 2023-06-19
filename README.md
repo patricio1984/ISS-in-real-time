@@ -1,4 +1,4 @@
-# Challenge react weather app
+# ISS React App in real time
 
 # Description
 This a React app that works with the [http://api.open-notify.org/iss-now.json](http://api.open-notify.org/iss-now.json) API. Fetching the data from this API we can access to the real position of the <abbr title="International Space Station">ISS</abbr> and display it in a google map.
