@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import iconUrl from '../assets/ISS-marker.png';
+import iconUrl from '../assets/ISS-marker.webp';
 
 const Map = ({ latitude, longitude }) => {
   const customIcon = L.icon({
