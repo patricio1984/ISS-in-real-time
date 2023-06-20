@@ -31,6 +31,28 @@ html {
   color: #333333;
 }
 
+.skip-to-content-link {
+  left: 50%;
+  position: absolute;
+  transform: translateY(-100%);
+}
+
+.skip-to-content-link {
+  background: #CCCCCC;
+  color: #333333;
+  font-weight: 600;
+  left: 50%;
+  padding: 12px;
+  position: absolute;
+  transform: translateY(-100%);
+  transition: transform 0.3s;
+  font-size: 1.4rem;
+}
+
+.skip-to-content-link:focus {
+  transform: translateY(0%);
+}
+
 .section {
   margin-top: 2.4rem;
   margin-bottom: 2.4rem;
@@ -60,6 +82,7 @@ html {
 
 .header .title {
   font-size: 3rem;
+  font-weight: 600;
 }
 
 .menulist {
@@ -98,7 +121,7 @@ html {
 
 .footer-data__list__title {
   font-size: 2rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .footer-data__list__data {
@@ -252,13 +275,17 @@ html {
   top: 25px;
 }
 
+.bm-burger-button button[style] {
+  color: #333333 !important;
+}
+
 /* Color/shape of burger icon bars */
 .bm-burger-bars {
   background: #FFFFFF;
 }
 
 .bm-burger-bars[style] {
-  height: 15% !important;
+  height: 10% !important;
 }
 
 .light-mode .bm-burger-bars {
@@ -271,9 +298,8 @@ html {
 }
 
 /* Position and sizing of clickable cross button */
-.bm-cross-button {
-  height: 24px;
-  width: 24px;
+.bm-cross-button[style] {
+  left: 8px !important;
 }
 
 /* Color/shape of close button cross */

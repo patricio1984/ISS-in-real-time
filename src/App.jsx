@@ -5,20 +5,23 @@ import ISSDataProvider from './components/ISSDataProvider';
 import FooterData from './components/FooterData';
 import MenuBurger from './components/MenuBurger';
 import ISSFooterData from './components/ISSFooterData';
+import SkipToContentLink from './components/SkipToContentLink';
 import './App.css';
 
 
 const App = () => {
   return (
       <>
+        <SkipToContentLink />
+
         <MenuBurger />
         
         <Header />
 
-        <main className="main wrapper">
+        <main id="main" className="main wrapper">
           <section className="section">
             <ISSDataProvider>
-              {({ isLoading, latitude, longitude, timestamp }) => (
+              {({ isLoading, latitude, longitude, timestamp, velocity, altitude, tleLine1, tleLine2 }) => (
                 <>
                   {isLoading ? (
                     <div className="spinner__container">
@@ -26,11 +29,13 @@ const App = () => {
                     </div>   
                   ) : (
                     <>
-                      <Map latitude={latitude} longitude={longitude} />
+                      <Map latitude={latitude} longitude={longitude} tleLine1={tleLine1} tleLine2={tleLine2}/>
                       <FooterData
                         latitude={latitude}
                         longitude={longitude}
                         timestamp={timestamp}
+                        velocity={velocity}
+                        altitude={altitude}
                       />
                     </>
                   )}
