@@ -13,7 +13,6 @@ const Map = ({ latitude, longitude, tleLine1, tleLine2 }) => {
   });
 
   const [positions, setPositions] = useState([]);
-  const [markerPosition, setMarkerPosition] = useState([latitude, longitude]);
 
   useEffect(() => {
     const updatePolyline = () => {
@@ -59,29 +58,22 @@ const Map = ({ latitude, longitude, tleLine1, tleLine2 }) => {
 
   const parsedPositions = positions.map(position => [parseFloat(position[0]), parseFloat(position[1])]);
 
-  // Hook personalizado para centrar el mapa en la posición del marcador
-  function CenterMap() {
+  const CenterMap = () => {
     const map = useMap();
-
-    useEffect(() => {
-      if (latitude && longitude) {
-        map.setView([latitude, longitude], map.getZoom());
-      }
-    }, [latitude, longitude, map]);
-
+    map.setView([latitude, longitude]);
     return null;
-  }
+  };
 
   return (
     <>
       {latitude && longitude && (
         <MapContainer className="map-container" center={[latitude, longitude]} zoom={3}>
           <TileLayer url="https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}" detectRetina={true} />
-          <Marker position={markerPosition} icon={customIcon}>
-            <CenterMap />
+          <Marker position={[latitude, longitude]} icon={customIcon}>
+            {/* Fixear esto */}
+            {/* <Polyline positions={parsedPositions} color="blue" /> */}
           </Marker>
-          {/* Fixear esto */}
-          {/* <Polyline positions={parsedPositions} color="blue" /> */}
+          <CenterMap />
         </MapContainer>
       )}
     </>
@@ -89,5 +81,7 @@ const Map = ({ latitude, longitude, tleLine1, tleLine2 }) => {
 };
 
 export default Map;
+
+
 
 
