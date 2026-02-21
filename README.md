@@ -50,13 +50,3 @@ npm run dev
 npm run format
 npm run lint
 ```
-
-## Suggested LinkedIn post
-Short version ready to copy/paste:
-
-""Refactored and improved a React app that visualizes the ISS in real time: reorganized code by domain, added trajectory visualization (past/future) with clearer tooltips, interactive map controls, and accessibility fixes — including a robust approach to resolve WAVE contrast alerts. #React #Leaflet #Accessibility"
-
-I can also prepare alternate tones (technical / formal / casual) if you'd like.
-
----
-Keep me posted if you want tests, CI, or deployment instructions added to this README.
