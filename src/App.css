@@ -1,314 +1,388 @@
 /* Reset de clases */
-body, h1, h2, h3, h4, h5, h6, p, ul, ol, li {
-  margin: 0;
-  padding: 0;
+body {
+	background-color: #242424;
 }
 
-ul, ol {
-  list-style: none;
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+li {
+	margin: 0;
+	padding: 0;
+}
+
+ul,
+ol {
+	list-style: none;
 }
 
 a {
-  text-decoration: none;
+	text-decoration: none;
 }
 
 img {
-  max-width: 100%;
-  height: auto;
+	max-width: 100%;
+	height: auto;
 }
 
 /* Specifics */
 #root {
-  width: 100%;
+	width: 100%;
 }
 
 html {
-  font-size: 10px;
+	font-size: 10px;
 }
 
-.light-mode, .light-mode .header {
-  background-color: #FFFFFF;
-  color: #333333;
-}
-
-.skip-to-content-link {
-  left: 50%;
-  position: absolute;
-  transform: translateY(-100%);
+.light-mode,
+.light-mode .header {
+	background-color: #ffffff;
+	color: #333333;
 }
 
 .skip-to-content-link {
-  background: #CCCCCC;
-  color: #333333;
-  font-weight: 600;
-  left: 50%;
-  padding: 12px;
-  position: absolute;
-  transform: translateY(-100%);
-  transition: transform 0.3s;
-  font-size: 1.4rem;
+	left: 50%;
+	position: absolute;
+	transform: translateY(-100%);
+}
+
+.skip-to-content-link {
+	background: #cccccc;
+	color: #333333;
+	font-weight: 600;
+	left: 50%;
+	padding: 12px;
+	position: absolute;
+	transform: translateY(-100%);
+	transition: transform 0.3s;
+	font-size: 1.4rem;
 }
 
 .skip-to-content-link:focus {
-  transform: translateY(0%);
+	transform: translateY(0%);
 }
 
 .section {
-  margin-top: 2.4rem;
-  margin-bottom: 2.4rem;
+	margin-top: 2.4rem;
+	margin-bottom: 2.4rem;
 }
 
 .wrapper {
-  max-width: 120.8rem;
-  margin: 0 auto;
-  padding-left: 1.6rem;
-  padding-right: 1.6rem;
+	max-width: 120.8rem;
+	margin: 0 auto;
+	padding-left: 1.6rem;
+	padding-right: 1.6rem;
 }
 
 .header {
-  background-color: #353535;
+	background-color: #353535;
 }
 
 .header .wrapper {
-  min-height: 6rem;
-  display: flex;
-  align-items: center;
-  font-size: 3rem;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+	min-height: 6rem;
+	display: flex;
+	align-items: center;
+	font-size: 3rem;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	padding-top: 1rem;
+	padding-bottom: 1rem;
 }
 
 .header .title {
-  font-size: 3rem;
-  font-weight: 600;
+	font-size: 3rem;
+	font-weight: 600;
 }
 
 .menulist {
-  margin-top: 1.6rem;
-  margin-bottom: 2.6rem;
-  font-size: 1.6rem;
+	margin-top: 1.6rem;
+	margin-bottom: 2.6rem;
+	font-size: 1.6rem;
 }
 
 .menuitem {
-  color: #CCCCCC;
-  text-transform: uppercase;
-  font-weight: 600;
-  padding: 1.2rem 1.8rem;
+	color: #cccccc;
+	text-transform: uppercase;
+	font-weight: 600;
+	padding: 1.2rem 1.8rem;
 }
 
 .light-mode .menuitem {
-  color: #333333;
+	color: #333333;
 }
 
-.map-container--wrapper, .map-container {
-  width: 100%; 
-  height: 60rem;
+.map-container--wrapper,
+.map-container {
+	width: 100%;
+	height: 60rem;
 }
 
 .footer-data {
-  background-color: #1f3d75;
-  color: #FFFFFF;
-  padding-top: 2.4rem;
-  padding-bottom: 2.4rem;
+	background-color: #1f3d75;
+	color: #ffffff;
+	padding-top: 2.4rem;
+	padding-bottom: 2.4rem;
 }
 
 .footer-data__list {
-  display: flex;
-  justify-content: space-around;
+	display: flex;
+	justify-content: space-around;
 }
 
 .footer-data__list__title {
-  font-size: 2rem;
-  font-weight: 600;
+	font-size: 2rem;
+	font-weight: 600;
 }
 
 .footer-data__list__data {
-  font-size: 1.6rem;
+	font-size: 1.6rem;
 }
 
 .ISSFooterData {
-  font-size: 1.6rem;
+	font-size: 1.6rem;
+	background-color: #242424;
+}
+
+.main .ISSFooterData {
+	/* higher specificity so external styles are less likely to override */
+	background-color: #242424;
+}
+
+.light-mode .main .ISSFooterData {
+	background-color: #ffffff;
+}
+
+/* Ensure text contrast in footer under light/dark modes */
+.main .ISSFooterData p {
+	color: inherit;
+	background-color: #242424;
+}
+
+.light-mode .main .ISSFooterData p {
+	/* dark text on light background for accessibility */
+	color: #111111;
+	background-color: #ffffff;
+	opacity: 1;
+}
+
+/* Ensure readable text also when inline styles force white color/background */
+body:not(.light-mode) .main .ISSFooterData p {
+	/* dark theme: keep white text */
+	color: #ffffff;
+	background-color: #242424;
+	opacity: 1;
+}
+
+/* More specific rules for footer paragraph to override inline styles */
+.main .ISSFooterData .iss-footer-text {
+	background-color: #242424;
+	color: #ffffff;
+	opacity: 1;
+}
+
+.light-mode .main .ISSFooterData .iss-footer-text {
+	color: #111111;
 }
 
 /* Spinner */
 .spinner__container {
-  height: 60rem;
-  display: grid;
-  place-content: center;
+	height: 60rem;
+	display: grid;
+	place-content: center;
 }
 
 .lds-roller {
-  display: inline-block;
-  position: relative;
-  width: 80px;
-  height: 80px;
+	display: inline-block;
+	position: relative;
+	width: 80px;
+	height: 80px;
 }
 
 .lds-roller div {
-  animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  transform-origin: 40px 40px;
+	animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+	transform-origin: 40px 40px;
 }
 
 .lds-roller div:after {
-  content: " ";
-  display: block;
-  position: absolute;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #fff;
-  margin: -4px 0 0 -4px;
+	content: " ";
+	display: block;
+	position: absolute;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: #fff;
+	margin: -4px 0 0 -4px;
 }
 
 .lds-roller div:nth-child(1) {
-  animation-delay: -0.036s;
+	animation-delay: -0.036s;
 }
 
 .lds-roller div:nth-child(1):after {
-  top: 63px;
-  left: 63px;
+	top: 63px;
+	left: 63px;
 }
 
 .lds-roller div:nth-child(2) {
-  animation-delay: -0.072s;
+	animation-delay: -0.072s;
 }
 
 .lds-roller div:nth-child(2):after {
-  top: 68px;
-  left: 56px;
+	top: 68px;
+	left: 56px;
 }
 
 .lds-roller div:nth-child(3) {
-  animation-delay: -0.108s;
+	animation-delay: -0.108s;
 }
 
 .lds-roller div:nth-child(3):after {
-  top: 71px;
-  left: 48px;
+	top: 71px;
+	left: 48px;
 }
 
 .lds-roller div:nth-child(4) {
-  animation-delay: -0.144s;
+	animation-delay: -0.144s;
 }
 
 .lds-roller div:nth-child(4):after {
-  top: 72px;
-  left: 40px;
+	top: 72px;
+	left: 40px;
 }
 
 .lds-roller div:nth-child(5) {
-  animation-delay: -0.18s;
+	animation-delay: -0.18s;
 }
 
 .lds-roller div:nth-child(5):after {
-  top: 71px;
-  left: 32px;
+	top: 71px;
+	left: 32px;
 }
 
 .lds-roller div:nth-child(6) {
-  animation-delay: -0.216s;
+	animation-delay: -0.216s;
 }
 
 .lds-roller div:nth-child(6):after {
-  top: 68px;
-  left: 24px;
+	top: 68px;
+	left: 24px;
 }
 
 .lds-roller div:nth-child(7) {
-  animation-delay: -0.252s;
+	animation-delay: -0.252s;
 }
 
 .lds-roller div:nth-child(7):after {
-  top: 63px;
-  left: 17px;
+	top: 63px;
+	left: 17px;
 }
 
 .lds-roller div:nth-child(8) {
-  animation-delay: -0.288s;
+	animation-delay: -0.288s;
 }
 
 .lds-roller div:nth-child(8):after {
-  top: 56px;
-  left: 12px;
+	top: 56px;
+	left: 12px;
 }
 
 @keyframes lds-roller {
-  0% {
-    transform: rotate(0deg);
-  }
+	0% {
+		transform: rotate(0deg);
+	}
 
-  100% {
-    transform: rotate(360deg);
-  }
+	100% {
+		transform: rotate(360deg);
+	}
 }
 
 /* Menu */
 .container {
-  position: relative;
-  max-width: 120.8rem;
-  margin: 0 auto;
+	position: relative;
+	max-width: 120.8rem;
+	margin: 0 auto;
 }
 
 .overlay-open {
-  position: fixed;
-  z-index: 1200;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.3);
-  opacity: 1;
-  transition: opacity 0.3s ease 0s;
+	position: fixed;
+	z-index: 1000;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.3);
+	opacity: 1;
+	transition: opacity 0.3s ease 0s;
+}
+
+/* overlay button that covers the page when menu is open */
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	appearance: none;
+	outline: none;
 }
 
 .burger-button--hide {
-  opacity: 0;
-  transition: opacity 0.5s ease;
+	opacity: 0;
+	transition: opacity 0.5s ease;
 }
 
 /* Position and sizing of burger button */
 .bm-burger-button {
-  position: absolute;
-  width: 36px;
-  height: 30px;
-  right: 0;
-  top: 25px;
+	position: absolute;
+	width: 36px;
+	height: 30px;
+	right: 0;
+	top: 25px;
 }
 
 .bm-burger-button button[style] {
-  color: #333333 !important;
+	color: #333333;
 }
 
 /* Color/shape of burger icon bars */
 .bm-burger-bars {
-  background: #FFFFFF;
+	background: #ffffff;
 }
 
 .bm-burger-bars[style] {
-  height: 10% !important;
+	height: 10%;
 }
 
 .light-mode .bm-burger-bars {
-  background: #333333;
+	background: #333333;
 }
 
 /* Color/shape of burger icon bars on hover*/
 .bm-burger-bars-hover {
-  opacity: 0.8;
+	opacity: 0.8;
 }
 
 /* Position and sizing of clickable cross button */
 .bm-cross-button[style] {
-  left: 8px !important;
+	left: 8px;
 }
 
 /* Color/shape of close button cross */
 .bm-cross {
-  background: #bdc3c7;
+	background: #bdc3c7;
 }
 
 .light-mode .bm-cross {
-  background-color: #333333;
+	background-color: #333333;
 }
 
 /*
@@ -316,82 +390,84 @@ Sidebar wrapper styles
 Note: Beware of modifying this element as it can break the animations - you should not need to touch it in most cases
 */
 .bm-menu-wrap {
-  position: fixed;
-  height: 100%;
+	position: fixed;
+	height: 100%;
+	z-index: 1201;
 }
 
 /* General sidebar styles */
 .bm-menu {
-  background: #373a47;
-  overflow: hidden;
-  padding: 2.5em 1.5em 0;
-  font-size: 1.15em;
+	background: #373a47;
+	overflow: hidden;
+	padding: 2.5em 1.5em 0;
+	font-size: 1.15em;
 }
 
 .light-mode .bm-menu {
-  background: #CCCCCC;
+	background: #cccccc;
 }
 
 /* Morph shape necessary with bubble or elastic */
 .bm-morph-shape {
-  fill: #373a47;
+	fill: #373a47;
 }
 
 /* Wrapper for item list */
 .bm-item-list {
-  color: #b8b7ad;
-  padding: 0.8em;
+	color: #b8b7ad;
+	padding: 0.8em;
 }
 
 /* Individual item */
 .bm-item {
-  display: inline-block;
+	display: inline-block;
 }
 
 .bm-item-list[style] {
-  height: unset !important;
+	height: unset;
 }
 
 /* Mobile Resolution */
 @media all and (max-width: 750px) {
-  .map-container--wrapper, .map-container {
-    height: 40rem;
-  }
+	.map-container--wrapper,
+	.map-container {
+		height: 40rem;
+	}
 
-  .header .title {
-    font-size: 2rem;
-    padding-right: 5rem;
-  }
+	.header .title {
+		font-size: 2rem;
+		padding-right: 5rem;
+	}
 
-  .section {
-    margin-top: 0;
-  }
+	.section {
+		margin-top: 0;
+	}
 
-  .footer-data__list {
-    flex-direction: column;
-    padding-left: 1.6rem;
-    padding-left: 1.6rem;
-  }
+	.footer-data__list {
+		flex-direction: column;
+		padding-left: 1.6rem;
+		padding-left: 1.6rem;
+	}
 
-  .footer-data__list__data {
-    padding-bottom: 2rem;
-  }
+	.footer-data__list__data {
+		padding-bottom: 2rem;
+	}
 
-  .footer-data__list__data:last-of-type {
-    padding-bottom: 0;
-  }
+	.footer-data__list__data:last-of-type {
+		padding-bottom: 0;
+	}
 
-  .ISSFooterData {
-    margin-bottom: 2.4rem;
-  }
+	.ISSFooterData {
+		margin-bottom: 2.4rem;
+	}
 
-  .spinner__container {
-    height: 40rem;
-  }
+	.spinner__container {
+		height: 40rem;
+	}
 }
 
 @media all and (max-width: 1240px) {
-  .bm-burger-button {
-    right: 16px;
-  }
+	.bm-burger-button {
+		right: 16px;
+	}
 }

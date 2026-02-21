@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "biome check src",
+    "lint:fix": "biome check src --fix || true",
+    "format": "biome format src --write",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -21,14 +23,14 @@
     "satellite.js": "^5.0.0",
     "tle.js": "^4.7.3"
   },
+  "optionalDependencies": {
+    "@tanstack/react-query": "^4.35.0"
+  },
   "devDependencies": {
+    "@biomejs/biome": "^2.4.4",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^4.0.0",
-    "eslint": "^8.38.0",
-    "eslint-plugin-react": "^7.32.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.3.4",
-    "vite": "^4.3.9"
+    "vite": "^7.3.1"
   }
 }
