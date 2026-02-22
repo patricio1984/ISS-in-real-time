@@ -1,5 +1,5 @@
 :root {
-	font-family: "Poppins", system-ui, Helvetica, Arial, sans-serif;
+	font-family: "Space Grotesk", "Poppins", system-ui, Helvetica, Arial, sans-serif;
 	line-height: 1.5;
 	font-weight: 300;
 
@@ -15,4 +15,9 @@
 
 :root .light-mode {
 	font-weight: 400;
+}
+
+/* Evita un scroll horizontal innecesario causado por elementos que usan 100vw */
+html, body, #root {
+  overflow-x: hidden;
 }

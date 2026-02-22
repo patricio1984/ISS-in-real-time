@@ -1,0 +1,98 @@
+.loading-screen {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+	z-index: 9999;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #e6eef8;
+	transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1), visibility 1.2s;
+	visibility: visible;
+	opacity: 1;
+}
+
+.loading-screen.fade-out {
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+}
+
+.loading-content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 16px;
+	animation: cinematic-fade-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.loading-logo {
+	color: #e6eef8;
+	margin-bottom: 8px;
+	animation: pulse-glow 4s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+}
+
+.loading-title {
+	font-family: 'Space Grotesk', sans-serif;
+	font-size: 2rem;
+	font-weight: 500;
+	letter-spacing: 0.15em;
+	line-height: 1;
+	text-transform: uppercase;
+	color: #e6eef8;
+}
+
+.loading-subtitle {
+	font-family: 'JetBrains Mono', monospace;
+	font-size: 0.75rem;
+	font-weight: 400;
+	color: #60a5fa;
+	letter-spacing: 0.4em;
+	text-transform: uppercase;
+	line-height: 1;
+	margin-bottom: 32px;
+}
+
+.loading-scanner {
+	width: 200px;
+	height: 1px;
+	background: rgba(255, 255, 255, 0.1);
+	position: relative;
+	overflow: hidden;
+	margin-bottom: 16px;
+}
+
+.scanner-line {
+	position: absolute;
+	top: 0;
+	left: -100%;
+	width: 50%;
+	height: 100%;
+	background: linear-gradient(90deg, transparent, #60a5fa, transparent);
+	animation: scan 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+	box-shadow: 0 0 8px #60a5fa;
+}
+
+@keyframes scan {
+	0% { left: -100%; }
+	100% { left: 200%; }
+}
+
+.loading-message {
+	font-family: 'JetBrains Mono', monospace;
+	font-size: 0.85rem;
+	font-weight: 400;
+	color: #94a3b8;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	height: 20px; /* Fixed height to prevent layout shift */
+	animation: text-fade 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes text-fade {
+	0% { opacity: 0.6; }
+	100% { opacity: 1; }
+}

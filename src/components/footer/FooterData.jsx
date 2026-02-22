@@ -1,38 +1,50 @@
+import AnimatedNumber from "../common/AnimatedNumber";
+
 const FooterData = ({ latitude, longitude, timestamp, velocity, altitude }) => {
 	const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 	const formattedTimestamp = new Date(timestamp * 1000).toLocaleString(
-		"es-ES",
+		"en-US",
 		{
 			timeZone: userTimeZone,
+			hour12: false,
+			hour: "2-digit",
+			minute: "2-digit",
+			second: "2-digit",
 			timeZoneName: "short",
 		},
 	);
 
 	return (
-		<div className="footer-data">
-			<ul className="footer-data__list">
-				<li>
-					<h2 className="footer-data__list__title">Latitude</h2>
-					<p className="footer-data__list__data">{latitude}</p>
-				</li>
-				<li>
-					<h2 className="footer-data__list__title">Longitude</h2>
-					<p className="footer-data__list__data">{longitude}</p>
-				</li>
-				<li>
-					<h2 className="footer-data__list__title">Date</h2>
-					<p className="footer-data__list__data">{formattedTimestamp}</p>
-				</li>
-				<li>
-					<h2 className="footer-data__list__title">Velocity</h2>
-					<p className="footer-data__list__data">{velocity} Kph</p>
-				</li>
-				<li>
-					<h2 className="footer-data__list__title">Altitude</h2>
-					<p className="footer-data__list__data">{altitude} Km</p>
-				</li>
-			</ul>
+		<div className="telemetry-bar">
+			<div className="telemetry-item">
+				<span className="telemetry-label">LAT</span>
+				<span className="telemetry-value">
+					<AnimatedNumber value={latitude} format={(v) => v.toFixed(4)} />°
+				</span>
+			</div>
+			<div className="telemetry-item">
+				<span className="telemetry-label">LNG</span>
+				<span className="telemetry-value">
+					<AnimatedNumber value={longitude} format={(v) => v.toFixed(4)} />°
+				</span>
+			</div>
+			<div className="telemetry-item">
+				<span className="telemetry-label">ALT</span>
+				<span className="telemetry-value">
+					<AnimatedNumber value={altitude} format={(v) => Math.round(v)} /> KM
+				</span>
+			</div>
+			<div className="telemetry-item">
+				<span className="telemetry-label">SPD</span>
+				<span className="telemetry-value">
+					<AnimatedNumber value={velocity} format={(v) => Math.round(v)} /> KM/H
+				</span>
+			</div>
+			<div className="telemetry-item">
+				<span className="telemetry-label">SYS TIME</span>
+				<span className="telemetry-value">{formattedTimestamp}</span>
+			</div>
 		</div>
 	);
 };

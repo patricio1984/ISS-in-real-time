@@ -1,6 +1,6 @@
 /* Reset de clases */
-body {
-	background-color: #242424;
+html, body, #root {
+	height: 100%;
 }
 
 body,
@@ -35,16 +35,109 @@ img {
 /* Specifics */
 #root {
 	width: 100%;
+	animation: cinematic-fade-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+	perspective: 1000px; /* Enable 3D space for parallax */
+	overflow-x: hidden; /* Prevent horizontal scroll from 100vw elements */
+}
+
+#root::before {
+	content: "";
+	position: fixed;
+	top: -5%; left: -5%; width: 110vw; height: 110vh; /* Oversize for parallax movement */
+	pointer-events: none;
+	z-index: -1; /* Move behind content */
+	opacity: 0.02;
+	background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+	transform: translateZ(-100px) scale(1.1);
+}
+
+@keyframes cinematic-fade-in {
+	0% {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 html {
 	font-size: 10px;
 }
 
+:root{
+	--bg: #0b1020;
+	--surface: #121827;
+	--muted: #94a3b8;
+	--accent: #60a5fa;
+	--accent-strong: #3b82f6;
+	--card-bg: rgba(255,255,255,0.04);
+	--text-main: #e6eef8;
+	--grad-1: #1a1f35;
+	--grad-2: #0b1020;
+	--grad-3: #020617;
+}
+
+.light-mode {
+	--bg: #ffffff;
+	--surface: #f8fafc;
+	--muted: #64748b;
+	--accent: #2563eb;
+	--accent-strong: #1d4ed8;
+	--card-bg: rgba(0,0,0,0.03);
+	--text-main: #111111;
+	--grad-1: #f8fafc;
+	--grad-2: #e2e8f0;
+	--grad-3: #cbd5e1;
+}
+
+body {
+	background: radial-gradient(circle at center, var(--grad-1) 0%, var(--grad-2) 60%, var(--grad-3) 100%);
+	background-attachment: fixed;
+	color: var(--text-main);
+	font-family: 'Space Grotesk', 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	position: relative;
+}
+
+#root::before {
+	content: "";
+	position: fixed;
+	top: -5%; left: -5%; width: 110vw; height: 110vh; /* Oversize for parallax movement */
+	pointer-events: none;
+	z-index: -1; /* Move behind content */
+	opacity: 0.02;
+	background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+	transform: translateZ(-100px) scale(1.1); /* Push back and scale up for parallax */
+}
+
+/* Viewport-based typography */
+h1 { font-size: clamp(3.2rem, 6vw, 6.4rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+h2 { font-size: clamp(2.4rem, 5vw, 4.8rem); font-weight: 600; letter-spacing: -0.01em; line-height: 1.2; }
+h3 { font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 600; line-height: 1.3; }
+p { font-size: clamp(1.6rem, 2vw, 1.8rem); line-height: 1.6; }
+
+.micro-label {
+	font-family: 'JetBrains Mono', monospace;
+	font-size: 0.85rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.15em;
+	color: var(--accent);
+}
+
+.mono-data {
+	font-family: 'JetBrains Mono', monospace;
+	font-variant-numeric: tabular-nums;
+}
+
 .light-mode,
 .light-mode .header {
-	background-color: #ffffff;
-	color: #333333;
+	background-color: transparent;
+	color: var(--text-main);
 }
 
 .skip-to-content-link {
@@ -70,8 +163,18 @@ html {
 }
 
 .section {
-	margin-top: 2.4rem;
-	margin-bottom: 2.4rem;
+	margin-top: 10rem;
+	margin-bottom: 10rem;
+}
+
+/* Storytelling container: ensure sections feel like scenes */
+.story-container {
+  display: block;
+}
+
+/* Make footer and other small elements sit apart from cinematic scenes */
+.scene + .scene {
+  margin-top: 4rem;
 }
 
 .wrapper {
@@ -82,225 +185,662 @@ html {
 }
 
 .header {
-	background-color: #353535;
+	background: transparent;
+	padding: 2.4rem 0;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 1000;
+	transition: background-color 0.4s cubic-bezier(0.22, 1, 0.36, 1), 
+	            padding 0.4s cubic-bezier(0.22, 1, 0.36, 1), 
+	            backdrop-filter 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+	            transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+	            opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+	transform: translateY(0);
+	opacity: 1;
 }
 
-.header .wrapper {
-	min-height: 6rem;
+.header--scrolled {
+	background: rgba(11, 16, 32, 0.6);
+	backdrop-filter: blur(24px);
+	-webkit-backdrop-filter: blur(24px);
+	padding: 1.2rem 0;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.header--hidden {
+	transform: translateY(-100%);
+	opacity: 0;
+	pointer-events: none;
+}
+
+.light-mode .header--scrolled {
+	background: rgba(255, 255, 255, 0.8);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.header-wrapper {
 	display: flex;
 	align-items: center;
-	font-size: 3rem;
 	justify-content: space-between;
-	flex-wrap: wrap;
-	padding-top: 1rem;
-	padding-bottom: 1rem;
+}
+
+.header-brand {
+	display: flex;
+	align-items: center;
+	gap: 1.2rem;
+}
+
+.header .logo {
+	width: 44px;
+	height: 44px;
+	display: grid;
+	place-items: center;
+	color: var(--text-main);
+	transition: transform 0.3s ease;
+}
+
+.header .logo:hover {
+	transform: scale(1.05);
+}
+
+.light-mode .header .logo {
+	color: var(--text-main);
+}
+
+.header-text {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 4px;
 }
 
 .header .title {
-	font-size: 3rem;
-	font-weight: 600;
+	font-family: 'Space Grotesk', sans-serif;
+	font-size: 1.6rem;
+	font-weight: 500;
+	letter-spacing: 0.1em;
+	line-height: 1;
+	text-transform: uppercase;
+	color: var(--text-main);
+}
+
+.header .subtitle {
+	font-family: 'JetBrains Mono', monospace;
+	font-size: 0.6rem;
+	font-weight: 400;
+	color: var(--accent);
+	letter-spacing: 0.4em;
+	text-transform: uppercase;
+	line-height: 1;
+}
+
+@media (max-width: 640px) {
+	.header .title { font-size: 1.3rem; }
+	.header .subtitle { font-size: 0.55rem; }
+	.header .logo { width: 36px; height: 36px; }
+	.header-brand { gap: 1rem; }
 }
 
 .menulist {
 	margin-top: 1.6rem;
 	margin-bottom: 2.6rem;
-	font-size: 1.6rem;
+	font-size: 1.4rem;
 }
 
-.menuitem {
-	color: #cccccc;
-	text-transform: uppercase;
-	font-weight: 600;
-	padding: 1.2rem 1.8rem;
-}
+/* Mapa debe ocupar la mayor parte del espacio vertical */
 
-.light-mode .menuitem {
-	color: #333333;
-}
-
-.map-container--wrapper,
-.map-container {
+.map-container, .map-container--wrapper {
+	/* Usar percentage height para fijar la proporción del mapa en la pantalla */
+	/* reducido ligeramente para acercar el mapa al footer */
+	height: 52vh;
 	width: 100%;
-	height: 60rem;
-}
-
-.footer-data {
-	background-color: #1f3d75;
-	color: #ffffff;
-	padding-top: 2.4rem;
-	padding-bottom: 2.4rem;
-}
-
-.footer-data__list {
 	display: flex;
-	justify-content: space-around;
+	flex-direction: column;
+	position: relative;
+	overflow: hidden;
 }
 
-.footer-data__list__title {
-	font-size: 2rem;
+/* Mission Control Map Styles */
+.mission-control-map {
+	height: 70vh; /* Make it taller for a more immersive feel */
+	width: 100vw; /* Edge-to-edge */
+	margin-left: calc(-50vw + 50%); /* Break out of wrapper */
+	margin-right: calc(-50vw + 50%);
+	border-radius: 0;
+	border: none;
+	box-shadow: none;
+	position: relative;
+	background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+}
+
+/* Ensure the mission-control map wrapper truly spans the viewport and
+   that the inner Leaflet container fills it. Use left calc to avoid
+   transform/centering quirks inside constrained wrappers. */
+.map-container--wrapper.mission-control-map {
+	position: relative;
+	left: calc(50% - 50vw);
+	width: 100vw;
+	max-width: 100vw;
+	box-sizing: border-box;
+	margin-left: 0;
+	margin-right: 0;
+	padding-left: env(safe-area-inset-left);
+	padding-right: env(safe-area-inset-right);
+}
+
+.map-container--wrapper.mission-control-map .map-container {
+	width: 100%;
+	height: 100%;
+	min-height: 60vh;
+}
+
+/* Ensure Leaflet's generated container fills the parent wrapper */
+.map-container,
+.map-container > .leaflet-container,
+.map-container .leaflet-pane,
+.map-container .leaflet-map-pane {
+	width: 100% !important;
+	height: 100% !important;
+}
+
+.light-mode .mission-control-map {
+	background: radial-gradient(circle at center, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.map-vignette {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	z-index: 400; /* Above map tiles, below controls */
+	background: radial-gradient(circle at center, transparent 40%, rgba(2, 6, 23, 0.8) 100%);
+	box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.5);
+}
+
+.light-mode .map-vignette {
+	background: radial-gradient(circle at center, transparent 40%, rgba(248, 250, 252, 0.8) 100%);
+	box-shadow: inset 0 0 100px rgba(255, 255, 255, 0.5);
+}
+
+/* Smooth zooming transitions for Leaflet */
+.leaflet-zoom-anim .leaflet-zoom-animated {
+	transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+.leaflet-container {
+	background: transparent !important;
+}
+
+/* Custom Leaflet zoom control styling to match site theme */
+.leaflet-control-zoom {
+	box-shadow: 0 8px 24px rgba(2,6,23,0.6);
+	border-radius: 10px;
+	overflow: hidden;
+	background: transparent;
+}
+
+.leaflet-control-zoom a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	color: var(--text-main);
+	background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+	border: 1px solid rgba(255,255,255,0.04);
+	margin: 6px;
+	border-radius: 8px;
+	box-sizing: border-box;
+	transition: background 160ms ease, transform 160ms ease, color 160ms ease;
+}
+
+.leaflet-control-zoom a:hover {
+	background: linear-gradient(180deg, var(--accent), var(--accent-strong));
+	color: #fff;
+	transform: translateY(-1px);
+}
+
+.leaflet-control-zoom a.leaflet-disabled {
+	opacity: 0.35;
+	cursor: not-allowed;
+}
+
+/* Slightly different look in light mode */
+.light-mode .leaflet-control-zoom a {
+	background: linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.02));
+	border: 1px solid rgba(0,0,0,0.06);
+	color: var(--text-main);
+}
+
+
+/* Floating Glass Data Panel */
+#iss-controls {
+	position: absolute;
+	top: 24px;
+	right: 24px;
+	z-index: 1000;
+	background: rgba(11, 16, 32, 0.2);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	border: 1px solid rgba(255, 255, 255, 0.05);
+	border-radius: 8px;
+	padding: 12px 16px;
+	gap: 12px;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+	color: var(--text-main);
+	min-width: 240px;
+	max-width: 280px;
+	transition: background 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+/* Make header area clearly interactive so users know it can be clicked */
+.control-group.control-group-header {
+    cursor: pointer;
+}
+
+#iss-controls:hover {
+	background: rgba(11, 16, 32, 0.4);
+	backdrop-filter: blur(16px);
+	-webkit-backdrop-filter: blur(16px);
+}
+
+.light-mode #iss-controls {
+	background: rgba(255, 255, 255, 0.3);
+	border: 1px solid rgba(0, 0, 0, 0.05);
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+	color: var(--text-main);
+}
+
+.light-mode #iss-controls:hover {
+	background: rgba(255, 255, 255, 0.6);
+}
+
+#iss-controls .control-group {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-family: 'JetBrains Mono', monospace;
+	font-size: 0.75rem;
 	font-weight: 600;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--muted);
 }
 
-.footer-data__list__data {
-	font-size: 1.6rem;
+#iss-controls .control-group-header {
+	font-family: 'Space Grotesk', sans-serif;
+	font-size: 0.9rem;
+	font-weight: 600;
+	letter-spacing: 0.1em;
+	color: var(--text-main);
+	text-transform: uppercase;
+}
+
+#iss-controls input[type="range"] {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 100%;
+	background: transparent;
+	height: 24px; /* Ensure enough height for the thumb and its shadow */
+	margin: 0;
+	padding: 0;
+	outline: none;
+}
+
+#iss-controls input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	height: 14px;
+	width: 14px;
+	border-radius: 50%;
+	background: var(--accent);
+	cursor: pointer;
+	margin-top: -6px; /* (track height / 2) - (thumb height / 2) = (2/2) - (14/2) = 1 - 7 = -6 */
+	box-shadow: 0 0 10px rgba(96, 165, 250, 0.6);
+	border: 2px solid #ffffff;
+	transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+#iss-controls input[type="range"]::-webkit-slider-thumb:hover {
+	transform: scale(1.2);
+	box-shadow: 0 0 14px rgba(96, 165, 250, 0.8);
+}
+
+#iss-controls input[type="range"]::-webkit-slider-runnable-track {
+	width: 100%;
+	height: 2px;
+	cursor: pointer;
+	background: rgba(255, 255, 255, 0.2);
+	border-radius: 1px;
+}
+
+/* Firefox support */
+#iss-controls input[type="range"]::-moz-range-thumb {
+	height: 14px;
+	width: 14px;
+	border-radius: 50%;
+	background: var(--accent);
+	cursor: pointer;
+	box-shadow: 0 0 10px rgba(96, 165, 250, 0.6);
+	border: 2px solid #ffffff;
+	transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+#iss-controls input[type="range"]::-moz-range-thumb:hover {
+	transform: scale(1.2);
+	box-shadow: 0 0 14px rgba(96, 165, 250, 0.8);
+}
+
+#iss-controls input[type="range"]::-moz-range-track {
+	width: 100%;
+	height: 2px;
+	cursor: pointer;
+	background: rgba(255, 255, 255, 0.2);
+	border-radius: 1px;
+}
+
+.light-mode #iss-controls input[type="range"]::-webkit-slider-runnable-track {
+	background: rgba(0, 0, 0, 0.15);
+}
+
+#iss-controls input[type="checkbox"] {
+	appearance: none;
+	width: 14px;
+	height: 14px;
+	border: 1px solid var(--muted);
+	border-radius: 3px;
+	background: transparent;
+	cursor: pointer;
+	position: relative;
+	transition: all 0.2s ease;
+}
+
+#iss-controls input[type="checkbox"]:checked {
+	background: var(--accent);
+	border-color: var(--accent);
+}
+
+#iss-controls input[type="checkbox"]:checked::after {
+	content: '';
+	position: absolute;
+	top: 1px;
+	left: 4px;
+	width: 3px;
+	height: 6px;
+	border: solid white;
+	border-width: 0 2px 2px 0;
+	transform: rotate(45deg);
+}
+
+#iss-controls .center-btn {
+	margin-top: 4px;
+	width: 100%;
+	justify-content: center;
+	font-size: 0.75rem;
+	padding: 6px 12px;
+}
+
+/* Animated Glowing Orbit Path */
+.leaflet-interactive {
+	stroke: var(--accent);
+	stroke-width: 3;
+	stroke-dasharray: 10, 10;
+	animation: dash 30s linear infinite, pulse-glow 4s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+	filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.5));
+}
+
+/* ISS Marker Icon */
+.iss-marker-container {
+	background: transparent;
+	border: none;
+	filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.4));
+	transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1), height 0.4s cubic-bezier(0.22, 1, 0.36, 1), margin 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.iss-pulse {
+	transform-origin: center;
+	animation: marker-pulse 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes marker-pulse {
+	0% { transform: scale(0.9); opacity: 0.4; }
+	50% { transform: scale(1.05); opacity: 0.15; }
+	100% { transform: scale(0.9); opacity: 0.4; }
+}
+
+/* Tooltip styling override for Leaflet */
+.leaflet-tooltip {
+	background: transparent !important;
+	border: none !important;
+	box-shadow: none !important;
+	padding: 0 !important;
+}
+.leaflet-tooltip::before {
+	display: none !important;
+}
+
+@keyframes dash {
+	to {
+		stroke-dashoffset: -1000;
+	}
+}
+
+@keyframes pulse-glow {
+	0% {
+		filter: drop-shadow(0 0 4px rgba(96, 165, 250, 0.6));
+		opacity: 0.85;
+	}
+	100% {
+		filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.9));
+		opacity: 1;
+	}
+}
+
+/* Make main fill remaining space */
+.main.wrapper {
+	flex: 1; 
+	display: flex;
+	flex-direction: column;
+	/* Aseguramos que el contenido pueda crecer */
+	min-height: 100%;
+}
+
+.section {
+	/* Contenedor principal que tiene el map y el primer footer */
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	min-height: 100%;
+	/* reducir margen debajo para acercar el footer */
+	margin-bottom: 0.8rem;
+}
+
+/* Generic button styles */
+.btn{
+	padding: 8px 12px;
+	border-radius: 8px;
+	cursor: pointer;
+	font-weight: 600;
+	border: 1px solid transparent;
+	background: transparent;
+}
+.btn-primary{
+	background: linear-gradient(180deg,var(--accent),var(--accent-strong));
+	color: white;
+}
+
+/* Precision buttons - ensure consistent sizing and spacing */
+.precision-btn{padding:6px 10px;border-radius:8px;border-width:2px;border-style:solid;box-sizing:border-box;transition:transform 120ms ease, box-shadow 120ms ease, background 140ms ease;}
+.precision-btn:active{transform:scale(0.96);}
+.precision-btn:focus{outline:none}
+
+/* Compact precision buttons for small screens */
+@media (max-width:480px){
+	.precision-btn{padding:6px;border-radius:10px;min-width:44px;font-size:12px}
+}
+
+/* Center button label hidden on very small screens to save space */
+@media (max-width:420px){
+	.btn{font-size:13px}
+}
+
+/* hide center button label on very small screens */
+@media (max-width:420px){
+	.center-btn .btn-label{display:none}
+}
+
+.telemetry-bar {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 0;
+	padding: 16px 24px;
+	background: linear-gradient(to bottom, rgba(11, 16, 32, 0.02), rgba(11, 16, 32, 0.15));
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	border-top: 1px solid rgba(255, 255, 255, 0.04);
+	width: 100vw;
+	margin-left: calc(-50vw + 50%);
+	margin-right: calc(-50vw + 50%);
+	box-sizing: border-box;
+	position: relative;
+	z-index: 1000;
+	margin-top: 48px; /* Space the telemetry bar below the map */
+	pointer-events: auto; /* Allow interacting with telemetry items */
+}
+
+.light-mode .telemetry-bar {
+	background: linear-gradient(to bottom, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.15));
+	border-top: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.telemetry-item {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 6px;
+	padding: 0 32px;
+	border-right: 1px solid rgba(255, 255, 255, 0.06);
+	pointer-events: auto; /* Re-enable pointer events for text selection */
+}
+
+.telemetry-item:last-child {
+	border-right: none;
+}
+
+.light-mode .telemetry-item {
+	border-right: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.light-mode .telemetry-item:last-child {
+	border-right: none;
+}
+
+.telemetry-label {
+	font-family: 'Space Grotesk', sans-serif;
+	font-size: 0.55rem;
+	font-weight: 600;
+	color: var(--accent);
+	letter-spacing: 0.25em;
+	text-transform: uppercase;
+	opacity: 0.6;
+}
+
+.telemetry-value {
+	font-family: 'JetBrains Mono', monospace;
+	font-size: 1.2rem;
+	font-weight: 500;
+	color: var(--text-main);
+	letter-spacing: 0.05em;
+	font-variant-numeric: tabular-nums;
+	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.light-mode .telemetry-value {
+	text-shadow: 0 2px 8px rgba(255, 255, 255, 0.8);
 }
 
 .ISSFooterData {
-	font-size: 1.6rem;
-	background-color: #242424;
-}
-
-.main .ISSFooterData {
-	/* higher specificity so external styles are less likely to override */
-	background-color: #242424;
-}
-
-.light-mode .main .ISSFooterData {
-	background-color: #ffffff;
-}
-
-/* Ensure text contrast in footer under light/dark modes */
-.main .ISSFooterData p {
-	color: inherit;
-	background-color: #242424;
-}
-
-.light-mode .main .ISSFooterData p {
-	/* dark text on light background for accessibility */
-	color: #111111;
-	background-color: #ffffff;
-	opacity: 1;
-}
-
-/* Ensure readable text also when inline styles force white color/background */
-body:not(.light-mode) .main .ISSFooterData p {
-	/* dark theme: keep white text */
-	color: #ffffff;
-	background-color: #242424;
-	opacity: 1;
-}
-
-/* More specific rules for footer paragraph to override inline styles */
-.main .ISSFooterData .iss-footer-text {
-	background-color: #242424;
-	color: #ffffff;
-	opacity: 1;
-}
-
-.light-mode .main .ISSFooterData .iss-footer-text {
-	color: #111111;
-}
-
-/* Spinner */
-.spinner__container {
-	height: 60rem;
-	display: grid;
-	place-content: center;
-}
-
-.lds-roller {
-	display: inline-block;
+	background-color: transparent;
+	padding: 12rem 1.6rem 6rem;
+	text-align: center;
+	max-width: 80rem;
+	margin: 0 auto;
 	position: relative;
-	width: 80px;
-	height: 80px;
 }
 
-.lds-roller div {
-	animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-	transform-origin: 40px 40px;
+.iss-footer-content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 3.2rem;
+	position: relative;
 }
 
-.lds-roller div:after {
-	content: " ";
-	display: block;
+.iss-footer-glow-line {
+	width: 100%;
+	height: 1px;
+	background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+	position: relative;
+}
+
+.iss-footer-glow-line::after {
+	content: '';
 	position: absolute;
-	width: 7px;
-	height: 7px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 40%;
+	height: 1px;
+	background: var(--accent);
+	filter: drop-shadow(0 0 8px var(--accent));
+	opacity: 0.5;
+}
+
+.light-mode .iss-footer-glow-line {
+	background: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.1) 50%, transparent 100%);
+}
+
+.main .ISSFooterData .iss-footer-text {
+	font-family: 'Space Grotesk', sans-serif;
+	font-size: clamp(1.4rem, 2vw, 1.8rem);
+	font-weight: 300;
+	color: var(--muted);
+	line-height: 1.8;
+	letter-spacing: 0.02em;
+	max-width: 64rem;
+	margin: 0 auto;
+}
+
+.iss-footer-meta {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1.6rem;
+	font-family: 'JetBrains Mono', monospace;
+	font-size: 0.75rem;
+	font-weight: 600;
+	letter-spacing: 0.2em;
+	color: rgba(148, 163, 184, 0.5);
+	text-transform: uppercase;
+}
+
+.meta-divider {
+	width: 4px;
+	height: 4px;
 	border-radius: 50%;
-	background: #fff;
-	margin: -4px 0 0 -4px;
+	background: var(--accent);
+	opacity: 0.5;
 }
 
-.lds-roller div:nth-child(1) {
-	animation-delay: -0.036s;
-}
-
-.lds-roller div:nth-child(1):after {
-	top: 63px;
-	left: 63px;
-}
-
-.lds-roller div:nth-child(2) {
-	animation-delay: -0.072s;
-}
-
-.lds-roller div:nth-child(2):after {
-	top: 68px;
-	left: 56px;
-}
-
-.lds-roller div:nth-child(3) {
-	animation-delay: -0.108s;
-}
-
-.lds-roller div:nth-child(3):after {
-	top: 71px;
-	left: 48px;
-}
-
-.lds-roller div:nth-child(4) {
-	animation-delay: -0.144s;
-}
-
-.lds-roller div:nth-child(4):after {
-	top: 72px;
-	left: 40px;
-}
-
-.lds-roller div:nth-child(5) {
-	animation-delay: -0.18s;
-}
-
-.lds-roller div:nth-child(5):after {
-	top: 71px;
-	left: 32px;
-}
-
-.lds-roller div:nth-child(6) {
-	animation-delay: -0.216s;
-}
-
-.lds-roller div:nth-child(6):after {
-	top: 68px;
-	left: 24px;
-}
-
-.lds-roller div:nth-child(7) {
-	animation-delay: -0.252s;
-}
-
-.lds-roller div:nth-child(7):after {
-	top: 63px;
-	left: 17px;
-}
-
-.lds-roller div:nth-child(8) {
-	animation-delay: -0.288s;
-}
-
-.lds-roller div:nth-child(8):after {
-	top: 56px;
-	left: 12px;
-}
-
-@keyframes lds-roller {
-	0% {
-		transform: rotate(0deg);
-	}
-
-	100% {
-		transform: rotate(360deg);
-	}
+.light-mode .iss-footer-meta {
+	color: rgba(100, 116, 139, 0.6);
 }
 
 /* Menu */
@@ -342,11 +882,52 @@ body:not(.light-mode) .main .ISSFooterData p {
 
 /* Position and sizing of burger button */
 .bm-burger-button {
-	position: absolute;
+	position: fixed;
 	width: 36px;
 	height: 30px;
-	right: 0;
-	top: 25px;
+	right: 1.6rem;
+	top: 17px;
+	z-index: 1001;
+}
+
+/* Mobile: convert to a bottom sheet, full-width touch targets */
+@media all and (max-width: 640px) {
+	#iss-controls {
+		top: auto;
+		bottom: 16px;
+		left: 16px;
+		right: 16px;
+		width: auto;
+		min-width: 0;
+		padding: 16px;
+	}
+
+	#iss-controls .control-group {
+		font-size: 1.2rem;
+	}
+
+	#iss-controls .precision-btn {
+		padding: 10px 12px;
+		min-width: 0;
+		flex: 1 1 auto;
+	}
+
+	#iss-controls .btn {
+		padding: 10px 14px;
+		min-width: 120px;
+	}
+
+	/* Stack controls vertically for easier touch interaction */
+	#iss-controls > div[style] {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	#iss-controls label[for="follow-toggle"],
+	#iss-controls label[for="auto-reenable"] {
+		align-items: center;
+	}
 }
 
 .bm-burger-button button[style] {
@@ -393,18 +974,23 @@ Note: Beware of modifying this element as it can break the animations - you shou
 	position: fixed;
 	height: 100%;
 	z-index: 1201;
+	/* Aumentar el ancho del menú para evitar scroll horizontal interno */
+	width: 320px !important;
+	max-width: 85vw;
 }
 
 /* General sidebar styles */
 .bm-menu {
-	background: #373a47;
-	overflow: hidden;
+	background: var(--surface);
+	overflow: hidden !important;
 	padding: 2.5em 1.5em 0;
 	font-size: 1.15em;
+	box-shadow: -10px 0 30px rgba(0,0,0,0.5);
 }
 
 .light-mode .bm-menu {
-	background: #cccccc;
+	background: var(--surface);
+	box-shadow: -10px 0 30px rgba(0,0,0,0.1);
 }
 
 /* Morph shape necessary with bubble or elastic */
@@ -414,24 +1000,69 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 /* Wrapper for item list */
 .bm-item-list {
-	color: #b8b7ad;
+	color: var(--text-main);
 	padding: 0.8em;
+	display: flex;
+	flex-direction: column;
+	gap: 1.2rem;
+	overflow: hidden !important;
 }
 
 /* Individual item */
 .bm-item {
 	display: inline-block;
+	outline: none;
 }
 
 .bm-item-list[style] {
-	height: unset;
+	height: auto !important;
+	overflow: hidden !important;
 }
 
-/* Mobile Resolution */
+.menuitem {
+	color: var(--muted);
+	text-transform: uppercase;
+	font-weight: 600;
+	padding: 1.2rem 1.8rem;
+	display: block;
+	border-radius: 8px;
+	transition: all 0.2s ease;
+	letter-spacing: 0.05em;
+}
+
+.menuitem:hover {
+	background: var(--card-bg);
+	color: var(--text-main);
+	transform: translateX(4px);
+}
+
+.light-mode .menuitem {
+	color: var(--muted);
+}
+
+.light-mode .menuitem:hover {
+	color: var(--text-main);
+}
+
+/* En pantallas pequeñas, altura adaptada pero basada en viewport para evitar scrolls masivos */
 @media all and (max-width: 750px) {
+	/* Restaurar height auto normal en móvil para permitir scroll */
+	html, body, #root, .main.wrapper, .section {
+		height: auto;
+		min-height: 100vh;
+		overflow-x: hidden;
+		overflow-y: visible;
+	}
+	
 	.map-container--wrapper,
 	.map-container {
-		height: 40rem;
+		/* En móvil, el mapa ocupa el 55% de la altura de la pantalla */
+		height: 55vh;
+		flex: none;
+	}
+
+	.mission-control-map {
+		height: 60vh;
 	}
 
 	.header .title {
@@ -443,26 +1074,29 @@ Note: Beware of modifying this element as it can break the animations - you shou
 		margin-top: 0;
 	}
 
-	.footer-data__list {
-		flex-direction: column;
-		padding-left: 1.6rem;
-		padding-left: 1.6rem;
+		.telemetry-bar {
+			gap: 16px 24px;
+			padding: 16px;
+			margin-top: 32px;
+			justify-content: center;
+		}
+
+	.telemetry-item {
+		padding: 0;
+		border-right: none;
+		align-items: center;
 	}
 
-	.footer-data__list__data {
-		padding-bottom: 2rem;
+	.light-mode .telemetry-item {
+		border-right: none;
 	}
 
-	.footer-data__list__data:last-of-type {
-		padding-bottom: 0;
+	.telemetry-value {
+		font-size: 1.1rem;
 	}
 
 	.ISSFooterData {
 		margin-bottom: 2.4rem;
-	}
-
-	.spinner__container {
-		height: 40rem;
 	}
 }
 

@@ -1,0 +1,108 @@
+/* Hide default cursor globally */
+* {
+	cursor: none !important;
+}
+
+/* Force hide cursor on Leaflet specific elements */
+.leaflet-container,
+.leaflet-interactive,
+.leaflet-grab,
+.leaflet-dragging .leaflet-grab,
+.leaflet-dragging .leaflet-grab .leaflet-interactive,
+.leaflet-dragging .leaflet-marker-draggable {
+	cursor: none !important;
+}
+
+/* Center Dot - Instant movement */
+.custom-cursor-dot {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 4px;
+	height: 4px;
+	background-color: var(--accent, #60a5fa);
+	border-radius: 50%;
+	pointer-events: none;
+	z-index: 100000; /* Increased z-index to be above Leaflet */
+	margin: -2px 0 0 -2px; /* Offset by half size to center */
+	box-shadow: 0 0 8px var(--accent, #60a5fa);
+	will-change: transform;
+}
+
+/* Outer Ring - Smooth trailing movement */
+.custom-cursor-ring {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 32px;
+	height: 32px;
+	border: 1px solid rgba(96, 165, 250, 0.4);
+	border-radius: 50%;
+	pointer-events: none;
+	z-index: 99999; /* Increased z-index to be above Leaflet */
+	margin: -16px 0 0 -16px; /* Offset by half size to center */
+	box-shadow: 0 0 12px rgba(96, 165, 250, 0.15), inset 0 0 12px rgba(96, 165, 250, 0.1);
+	transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1), 
+				height 0.3s cubic-bezier(0.22, 1, 0.36, 1), 
+				margin 0.3s cubic-bezier(0.22, 1, 0.36, 1), 
+				background-color 0.3s ease, 
+				border-color 0.3s ease;
+	will-change: transform, width, height;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* Radar Crosshairs */
+.crosshair {
+	position: absolute;
+	background-color: rgba(96, 165, 250, 0.6);
+	transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.crosshair.top, .crosshair.bottom { width: 1px; height: 4px; }
+.crosshair.left, .crosshair.right { width: 4px; height: 1px; }
+
+.crosshair.top { top: -4px; }
+.crosshair.bottom { bottom: -4px; }
+.crosshair.left { left: -4px; }
+.crosshair.right { right: -4px; }
+
+/* Hover State (Interactive Elements) */
+.custom-cursor-ring.is-hovering {
+	width: 48px;
+	height: 48px;
+	margin: -24px 0 0 -24px;
+	background-color: rgba(96, 165, 250, 0.05);
+	border-color: rgba(96, 165, 250, 0.8);
+	box-shadow: 0 0 16px rgba(96, 165, 250, 0.3), inset 0 0 8px rgba(96, 165, 250, 0.2);
+}
+
+.custom-cursor-ring.is-hovering .crosshair.top { top: -6px; height: 6px; }
+.custom-cursor-ring.is-hovering .crosshair.bottom { bottom: -6px; height: 6px; }
+.custom-cursor-ring.is-hovering .crosshair.left { left: -6px; width: 6px; }
+.custom-cursor-ring.is-hovering .crosshair.right { right: -6px; width: 6px; }
+
+/* Click State */
+.custom-cursor-ring.is-clicking {
+	width: 24px;
+	height: 24px;
+	margin: -12px 0 0 -12px;
+	background-color: rgba(96, 165, 250, 0.15);
+	border-color: rgba(96, 165, 250, 1);
+}
+
+.custom-cursor-ring.is-clicking .crosshair {
+	opacity: 0;
+}
+
+/* Disable custom cursor on touch devices */
+@media (hover: none) and (pointer: coarse) {
+	.custom-cursor-dot,
+	.custom-cursor-ring {
+		display: none !important;
+	}
+	* {
+		cursor: auto !important;
+	}
+}

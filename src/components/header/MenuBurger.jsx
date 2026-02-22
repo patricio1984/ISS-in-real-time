@@ -1,37 +1,10 @@
 import { DarkModeToggle } from "@anatoliygatt/dark-mode-toggle";
-import { useEffect, useRef, useState } from "react";
-import { slide as Menu } from "react-burger-menu";
+import { useEffect, useState } from "react";
+import "./MenuBurger.css";
 
 const MenuBurger = () => {
 	const [mode, setMode] = useState("dark");
-	const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-	const overlayRef = useRef(null);
-	const burgerButtonId = "react-burger-cross-btn";
-
-	const handleOverlayClick = (event) => {
-		const burgerButton = document.querySelector(`#${burgerButtonId}`);
-		if (event.target === overlayRef.current && burgerButton) {
-			burgerButton.click();
-		}
-	};
-
-	const _handleOverlayKeyUp = (event) => {
-		if (event.key === "Enter" || event.key === " ") {
-			handleOverlayClick(event);
-		}
-	};
-
-	useEffect(() => {
-		const menuWrap = document.querySelector(".bm-menu-wrap");
-		const observer = new MutationObserver(() => {
-			const isHidden = menuWrap.getAttribute("aria-hidden") === "true";
-			setIsMenuOpen(!isHidden);
-		});
-
-		observer.observe(menuWrap, { attributes: true });
-		return () => observer.disconnect();
-	}, []);
+	const [menuOpen, setMenuOpen] = useState(false);
 
 	useEffect(() => {
 		if (mode !== "dark") {
@@ -42,35 +15,35 @@ const MenuBurger = () => {
 	}, [mode]);
 
 	useEffect(() => {
-		const burgerButton = document.getElementById("react-burger-cross-btn");
-
-		if (burgerButton) {
-			if (isMenuOpen) {
-				burgerButton.classList.add("burger-button--hide");
-			} else {
-				setTimeout(() => {
-					burgerButton.classList.remove("burger-button--hide");
-				}, 500);
-			}
+		if (menuOpen) {
+			document.body.style.overflow = "hidden";
+		} else {
+			document.body.style.overflow = "";
 		}
-	}, [isMenuOpen]);
+		return () => {
+			document.body.style.overflow = "";
+		};
+	}, [menuOpen]);
 
 	return (
 		<>
-			{isMenuOpen && (
-				<button
-					className={`overlay ${isMenuOpen ? "overlay-open" : ""}`}
-					ref={overlayRef}
-					onClick={handleOverlayClick}
-					onKeyUp={_handleOverlayKeyUp}
-					type="button"
-					aria-label="Overlay"
-				/>
-			)}
-			<div className="container">
-				<Menu right noOverlay>
-					<ul>
-						<li>
+			<button
+				className={`menu-toggle-btn ${menuOpen ? 'is-open' : ''}`}
+				type="button"
+				aria-label={menuOpen ? "Close menu" : "Open menu"}
+				aria-expanded={menuOpen}
+				onClick={() => setMenuOpen((v) => !v)}
+			>
+				<span className="menu-bar top-bar" />
+				<span className="menu-bar middle-bar" />
+				<span className="menu-bar bottom-bar" />
+			</button>
+
+			<div className={`menu-overlay ${menuOpen ? 'is-open' : ''}`}>
+				<div className="menu-overlay-bg"></div>
+				<nav className="menu-content">
+					<ul className="menu-list">
+						<li className="menu-item-wrapper" style={{ '--delay': '0.1s' }}>
 							<DarkModeToggle
 								ariaLabel="Toggle color scheme"
 								mode={mode}
@@ -87,15 +60,13 @@ const MenuBurger = () => {
 								inactiveTrackColorOnActive="#0f172a"
 								inactiveThumbColor="#e2e8f0"
 								activeThumbColor="#1e293b"
-								onChange={(mode) => {
-									setMode(mode);
-								}}
+								onChange={(mode) => setMode(mode)}
 							/>
 						</li>
 
-						<li className="menulist">
+						<li className="menu-item-wrapper" style={{ '--delay': '0.2s' }}>
 							<a
-								className="menuitem"
+								className="menu-link"
 								href="https://www.linkedin.com/in/patriciomainero/"
 								target="_blank"
 								rel="noopener noreferrer"
@@ -104,29 +75,29 @@ const MenuBurger = () => {
 							</a>
 						</li>
 
-						<li className="menulist">
+						<li className="menu-item-wrapper" style={{ '--delay': '0.3s' }}>
 							<a
-								className="menuitem"
+								className="menu-link"
 								href="https://patricio1984.github.io/port/"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								My portfolio page
+								Portfolio
 							</a>
 						</li>
 
-						<li className="menulist">
+						<li className="menu-item-wrapper" style={{ '--delay': '0.4s' }}>
 							<a
-								className="menuitem"
+								className="menu-link"
 								href="https://github.com/patricio1984"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								My Github repositories
+								Github
 							</a>
 						</li>
 					</ul>
-				</Menu>
+				</nav>
 			</div>
 		</>
 	);

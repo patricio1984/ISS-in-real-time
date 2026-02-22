@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    .orbit { fill: none; stroke: #0f172a; stroke-width: 3; }
+    .planet { fill: #0f172a; }
+    .iss { fill: #3b82f6; }
+    @media (prefers-color-scheme: dark) {
+      .orbit { stroke: #f8fafc; }
+      .planet { fill: #f8fafc; }
+      .iss { fill: #60a5fa; }
+    }
+  </style>
+  <circle cx="16" cy="16" r="6" class="planet" />
+  <ellipse cx="16" cy="16" rx="14" ry="5" transform="rotate(-30 16 16)" class="orbit" />
+  <circle cx="28.1" cy="9" r="4" class="iss" />
+</svg>
