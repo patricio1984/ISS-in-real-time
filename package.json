@@ -18,12 +18,17 @@
     "@fontsource/jetbrains-mono": "^5.2.8",
     "@fontsource/space-grotesk": "^5.2.10",
     "leaflet": "^1.9.4",
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-leaflet": "^4.2.1",
     "satellite.js": "^5.0.0",
     "tle.js": "^4.7.3"
   },
+  "engines": {
+    "node": "^20.19.0 || ^22.12.0"
+  },
+  
   "optionalDependencies": {
     "@tanstack/react-query": "^4.35.0"
   },
