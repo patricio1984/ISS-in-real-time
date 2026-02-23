@@ -831,7 +831,7 @@ p {
 /* hide center button label on very small screens (only very narrow devices) */
 @media (max-width: 360px) {
 	.center-btn .btn-label {
-		display: none;
+		display: inline; /* Changed from none to inline to ensure it's visible */
 	}
 }
 
