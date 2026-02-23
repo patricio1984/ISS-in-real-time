@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./LoadingScreen.css";
 
 const messages = [
@@ -45,7 +45,7 @@ const LoadingScreen = ({ isLoading }) => {
 
 	useEffect(() => {
 		const root = document.getElementById("root");
-		
+
 		const preventScroll = (e) => {
 			e.preventDefault();
 		};
@@ -55,7 +55,7 @@ const LoadingScreen = ({ isLoading }) => {
 			document.documentElement.style.overflow = "hidden";
 			document.body.style.overflow = "hidden";
 			if (root) root.style.overflow = "hidden";
-			
+
 			// Prevenir eventos de scroll por rueda o táctil
 			window.addEventListener("wheel", preventScroll, { passive: false });
 			window.addEventListener("touchmove", preventScroll, { passive: false });
@@ -64,7 +64,7 @@ const LoadingScreen = ({ isLoading }) => {
 			document.documentElement.style.overflow = "";
 			document.body.style.overflow = "";
 			if (root) root.style.overflow = "";
-			
+
 			window.removeEventListener("wheel", preventScroll);
 			window.removeEventListener("touchmove", preventScroll);
 		}
@@ -73,7 +73,7 @@ const LoadingScreen = ({ isLoading }) => {
 			document.documentElement.style.overflow = "";
 			document.body.style.overflow = "";
 			if (root) root.style.overflow = "";
-			
+
 			window.removeEventListener("wheel", preventScroll);
 			window.removeEventListener("touchmove", preventScroll);
 		};
@@ -92,6 +92,8 @@ const LoadingScreen = ({ isLoading }) => {
 						fill="none"
 						xmlns="http://www.w3.org/2000/svg"
 						className="mission-patch"
+						role="img"
+						aria-label="Mission Patch"
 					>
 						<circle
 							cx="50"

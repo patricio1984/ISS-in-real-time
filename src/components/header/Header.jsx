@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Header = ({ isLoading }) => {
 	const [scrolled, setScrolled] = useState(false);
@@ -43,6 +43,8 @@ const Header = ({ isLoading }) => {
 							fill="none"
 							xmlns="http://www.w3.org/2000/svg"
 							className="mission-patch"
+							role="img"
+							aria-label="Mission Patch"
 						>
 							{/* Outer boundary */}
 							<circle

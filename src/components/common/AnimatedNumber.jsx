@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const AnimatedNumber = ({ value, duration = 1000, format = (v) => v }) => {
 	const [displayValue, setDisplayValue] = useState(0);
@@ -21,7 +21,7 @@ const AnimatedNumber = ({ value, duration = 1000, format = (v) => v }) => {
 			const progress = Math.min((timestamp - startTimestamp) / duration, 1);
 
 			// easeOutExpo for smoother deceleration
-			const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+			const easeProgress = progress === 1 ? 1 : 1 - 2 ** (-10 * progress);
 
 			const currentVal = startValue + (endValue - startValue) * easeProgress;
 			setDisplayValue(currentVal);

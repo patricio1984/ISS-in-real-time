@@ -1,4 +1,3 @@
-import React from "react";
 import "./Hero.css";
 import AnimatedNumber from "../common/AnimatedNumber";
 import FadeInUp from "../common/FadeInUp";

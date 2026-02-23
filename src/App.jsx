@@ -1,15 +1,15 @@
-import SkipToContentLink from "./components/common/SkipToContentLink";
-import Particles from "./components/common/Particles";
+import CustomCursor from "./components/common/CustomCursor";
 import FadeInUp from "./components/common/FadeInUp";
 import LoadingScreen from "./components/common/LoadingScreen";
-import CustomCursor from "./components/common/CustomCursor";
+import Particles from "./components/common/Particles";
+import SkipToContentLink from "./components/common/SkipToContentLink";
 import FooterData from "./components/footer/FooterData";
 import ISSFooterData from "./components/footer/ISSFooterData";
 import Header from "./components/header/Header";
 import MenuBurger from "./components/header/MenuBurger";
+import Hero from "./components/hero/Hero";
 import ISSMap from "./components/map/Map";
 import ISSDataProvider from "./lib/iss/ISSDataProvider";
-import Hero from "./components/hero/Hero";
 import "./App.css";
 
 const App = () => {

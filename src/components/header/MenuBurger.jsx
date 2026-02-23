@@ -16,7 +16,7 @@ const MenuBurger = ({ isLoading }) => {
 
 	useEffect(() => {
 		const root = document.getElementById("root");
-		
+
 		const preventScroll = (e) => {
 			e.preventDefault();
 		};
@@ -25,23 +25,23 @@ const MenuBurger = ({ isLoading }) => {
 			document.documentElement.style.overflow = "hidden";
 			document.body.style.overflow = "hidden";
 			if (root) root.style.overflow = "hidden";
-			
+
 			window.addEventListener("wheel", preventScroll, { passive: false });
 			window.addEventListener("touchmove", preventScroll, { passive: false });
 		} else {
 			document.documentElement.style.overflow = "";
 			document.body.style.overflow = "";
 			if (root) root.style.overflow = "";
-			
+
 			window.removeEventListener("wheel", preventScroll);
 			window.removeEventListener("touchmove", preventScroll);
 		}
-		
+
 		return () => {
 			document.documentElement.style.overflow = "";
 			document.body.style.overflow = "";
 			if (root) root.style.overflow = "";
-			
+
 			window.removeEventListener("wheel", preventScroll);
 			window.removeEventListener("touchmove", preventScroll);
 		};

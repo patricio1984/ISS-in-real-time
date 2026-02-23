@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
 	CircleMarker,
 	MapContainer,
@@ -12,12 +12,12 @@ import {
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import * as satellite from "satellite.js";
-import CenterMap from "./CenterMap";
 import MagneticButton from "../common/MagneticButton";
+import CenterMap from "./CenterMap";
 
 // Normalize longitude to [-180, 180)
 const wrapLongitude = (lon) => {
-	let x = ((lon + 180) % 360);
+	let x = (lon + 180) % 360;
 	if (x < 0) x += 360;
 	return x - 180;
 };
@@ -25,8 +25,8 @@ const wrapLongitude = (lon) => {
 // Clamp a lat/lon pair to the map's maxBounds (if present), normalizing longitude first
 const clampToMapBounds = (mapInstance, targetLat, targetLon) => {
 	try {
-		const mb = mapInstance.getMaxBounds && mapInstance.getMaxBounds();
-		if (mb && mb.isValid && mb.isValid()) {
+		const mb = mapInstance.getMaxBounds?.();
+		if (mb?.isValid?.()) {
 			const sw = mb.getSouthWest();
 			const ne = mb.getNorthEast();
 			const pad = 1e-6;
@@ -74,13 +74,13 @@ const ControlsOverlay = ({ asideId, ignoreRef }) => {
 			}
 		};
 
-		const onPointerDown = (ev) => {
+		const onPointerDown = (_ev) => {
 			try {
 				if (ignoreRef) ignoreRef.current = true;
 			} catch (_e) {}
 			disable();
 		};
-		const onPointerUp = (ev) => {
+		const onPointerUp = (_ev) => {
 			try {
 				// small delay to avoid racing with map events
 				if (ignoreRef) setTimeout(() => (ignoreRef.current = false), 150);
@@ -99,7 +99,7 @@ const ControlsOverlay = ({ asideId, ignoreRef }) => {
 			el.removeEventListener("pointerdown", onPointerDown);
 			el.removeEventListener("pointerup", onPointerUp);
 		};
-	}, [map, asideId]);
+	}, [map, asideId, ignoreRef]);
 
 	return null;
 };
@@ -122,11 +122,11 @@ const CenterOnISSButton = ({ lat, lon, isLightMode }) => {
 
 	const handleClick = () => {
 		try {
-			let targetLon = normalizeLonToCenter(lon);
+			const targetLon = normalizeLonToCenter(lon);
 			const [clampedLat, clampedLon] = clampToMapBounds(map, lat, targetLon);
 			const currentZoom = map.getZoom?.() ?? 5;
 			map.flyTo([clampedLat, clampedLon], currentZoom, { duration: 0.9 });
-		} catch (e) {
+		} catch (_e) {
 			try {
 				const [clampedLat, clampedLon] = clampToMapBounds(map, lat, lon);
 				map.setView([clampedLat, clampedLon], map.getZoom?.() ?? 5);
@@ -136,8 +136,10 @@ const CenterOnISSButton = ({ lat, lon, isLightMode }) => {
 		}
 	};
 
-	const bg = isLightMode ? "linear-gradient(180deg,#fff,#f3f3f3)" : "linear-gradient(180deg,#212121,#141414)";
-	const color = isLightMode ? "#111" : "#eee";
+	const _bg = isLightMode
+		? "linear-gradient(180deg,#fff,#f3f3f3)"
+		: "linear-gradient(180deg,#212121,#141414)";
+	const _color = isLightMode ? "#111" : "#eee";
 
 	return (
 		<MagneticButton
@@ -162,7 +164,7 @@ const CenterOnISSButton = ({ lat, lon, isLightMode }) => {
 				borderRadius: "6px",
 				fontWeight: "600",
 				cursor: "pointer",
-				transition: "all 0.2s ease"
+				transition: "all 0.2s ease",
 			}}
 			onMouseEnter={(e) => {
 				e.currentTarget.style.background = "rgba(255, 255, 255, 0.1)";
@@ -173,12 +175,45 @@ const CenterOnISSButton = ({ lat, lon, isLightMode }) => {
 				e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
 			}}
 		>
-			<svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{marginRight:6}}>
-				<path d="M12 2v4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-				<path d="M12 18v4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-				<path d="M4 12h4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-				<path d="M16 12h4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-				<circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.6"/>
+			<svg
+				width="14"
+				height="14"
+				viewBox="0 0 24 24"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+				style={{ marginRight: 6 }}
+				role="img"
+				aria-label="Center Icon"
+			>
+				<path
+					d="M12 2v4"
+					stroke="currentColor"
+					strokeWidth="1.6"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+				/>
+				<path
+					d="M12 18v4"
+					stroke="currentColor"
+					strokeWidth="1.6"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+				/>
+				<path
+					d="M4 12h4"
+					stroke="currentColor"
+					strokeWidth="1.6"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+				/>
+				<path
+					d="M16 12h4"
+					stroke="currentColor"
+					strokeWidth="1.6"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+				/>
+				<circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.6" />
 			</svg>
 			<span className="btn-label">RE-CENTER</span>
 		</MagneticButton>
@@ -187,10 +222,17 @@ const CenterOnISSButton = ({ lat, lon, isLightMode }) => {
 
 // Controls following behavior: when `follow` is true, center on updates;
 // disable follow when the user interacts with the map.
-const FollowController = ({ lat, lon, follow, setFollow, ignoreRef, onUserInteraction }) => {
+const FollowController = ({
+	lat,
+	lon,
+	follow,
+	setFollow,
+	ignoreRef,
+	onUserInteraction,
+}) => {
 	const map = useMap();
 	const programmatic = useRef(false);
-	const reenableTimer = useRef(null);
+	const _reenableTimer = useRef(null);
 
 	useEffect(() => {
 		if (!map) return;
@@ -236,13 +278,15 @@ const FollowController = ({ lat, lon, follow, setFollow, ignoreRef, onUserIntera
 				adjustedLon += adjustedLon > center.lng ? -360 : 360;
 			}
 			const [clampedLat, clampedLon] = clampToMapBounds(map, lat, adjustedLon);
-			map.flyTo([clampedLat, clampedLon], map.getZoom?.() ?? 5, { duration: 0.8 });
+			map.flyTo([clampedLat, clampedLon], map.getZoom?.() ?? 5, {
+				duration: 0.8,
+			});
 			map.once("moveend", () => {
 				setTimeout(() => {
 					programmatic.current = false;
 				}, 20);
 			});
-		} catch (e) {
+		} catch (_e) {
 			try {
 				const [clampedLat, clampedLon] = clampToMapBounds(map, lat, lon);
 				map.setView([clampedLat, clampedLon], map.getZoom?.() ?? 5);
@@ -286,7 +330,15 @@ const ISSMarker = ({ latitude, longitude }) => {
 		iconAnchor: [size / 2, size / 2],
 	});
 
-	return <Marker position={[latitude, longitude]} icon={customIcon} interactive={false} alt="ISS Location" title="ISS Location" />;
+	return (
+		<Marker
+			position={[latitude, longitude]}
+			icon={customIcon}
+			interactive={false}
+			alt="ISS Location"
+			title="ISS Location"
+		/>
+	);
 };
 
 const ISSMap = ({ latitude, longitude, tleLine1, tleLine2 }) => {
@@ -462,7 +514,7 @@ const ISSMap = ({ latitude, longitude, tleLine1, tleLine2 }) => {
 
 	return (
 		<>
-			{(latitude != null && longitude != null) && (
+			{latitude != null && longitude != null && (
 				<div className="map-container--wrapper mission-control-map">
 					<div className="map-vignette"></div>
 					<MapContainer
@@ -483,232 +535,317 @@ const ISSMap = ({ latitude, longitude, tleLine1, tleLine2 }) => {
 						scrollWheelZoom={false}
 					>
 						<TileLayer
-							url={isLightMode ? "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" : "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"}
+							url={
+								isLightMode
+									? "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+									: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+							}
 							detectRetina={true}
 							noWrap={true}
 						/>
-					<ISSMarker latitude={latitude} longitude={longitude} />
-					{segments.map((seg, idx) => {
-						if (!(seg.length > 1)) return null;
+						<ISSMarker latitude={latitude} longitude={longitude} />
+						{segments.map((seg, idx) => {
+							if (!(seg.length > 1)) return null;
 
-						// determine if this segment contains any future points
-						const isFuture = !!segmentHasFuture[idx];
-						const segColor = isFuture ? "var(--accent)" : "var(--muted)"; // accent for future, muted for past
-						const pathOptions = {
-							color: segColor,
-							weight: 3,
-							opacity: 0.95,
-							className: isFuture ? "leaflet-interactive" : "", // Add glowing animation class to future path
-						};
+							// determine if this segment contains any future points
+							const isFuture = !!segmentHasFuture[idx];
+							const segColor = isFuture ? "var(--accent)" : "var(--muted)"; // accent for future, muted for past
+							const pathOptions = {
+								color: segColor,
+								weight: 3,
+								opacity: 0.95,
+								className: isFuture ? "leaflet-interactive" : "", // Add glowing animation class to future path
+							};
 
-						return (
-							<React.Fragment key={`${seg[0][0]}_${seg[0][1]}_${idx}`}>
-								<Polyline positions={seg} pathOptions={pathOptions} />
-								{seg.map((pt, j) => {
-									if (seg.length < 6) return null;
-									const step = Math.max(1, Math.floor(seg.length / 6));
-									const show = j % step === 0;
-									if (!show) return null;
-									const time = segmentTimes[idx]?.[j];
-									const key = `m-${seg[0][0]}_${seg[0][1]}_${j}_${idx}`;
-									return (
-										<CircleMarker
-											key={key}
-											center={pt}
-											radius={4}
-											pathOptions={{
-												color: "transparent",
-												fillColor: segColor,
-												fillOpacity: 0.9,
-											}}
-										>
-											{time && (
-												<Tooltip
-													direction="top"
-													offset={[0, -6]}
-													opacity={1}
-													permanent={false}
-												>
-													<div style={{ 
-														fontSize: 14, 
-														fontWeight: 600, 
-														background: isLightMode ? "rgba(255, 255, 255, 0.9)" : "rgba(11, 16, 32, 0.8)", 
-														color: isLightMode ? "#111" : "var(--text-main)", 
-														border: isLightMode ? "1px solid rgba(0,0,0,0.1)" : "1px solid rgba(255,255,255,0.1)", 
-														backdropFilter: "blur(4px)", 
-														padding: "4px 8px", 
-														borderRadius: "4px",
-														boxShadow: isLightMode ? "0 2px 8px rgba(0,0,0,0.1)" : "none"
-													}}>
-														{new Date(time).toLocaleString()}
-													</div>
-												</Tooltip>
-											)}
-										</CircleMarker>
-									);
-								})}
-							</React.Fragment>
-						);
-					})}
-					<FollowController
-						lat={latitude}
-						lon={longitude}
-						follow={follow}
-						setFollow={setFollow}
-						ignoreRef={ignoreInteractionRef}
-						onUserInteraction={handleMapUserInteraction}
-					/>
-					<CenterMap latitude={latitude} longitude={longitude} />
-					{/* Controls / legend fixed inside map (top-right) */}
-					<aside
-						id="iss-controls"
-						aria-label="Controles de trayectoria"
-					>
-
-						<div
-							className="control-group control-group-header"
-							style={{ justifyContent: "space-between", alignItems: "center", width: "100%", marginBottom: 4 }}
-							onClick={(e) => {
-								// Don't toggle when interacting with inputs, buttons, links, or labels
-								if (e.target.closest && e.target.closest('input,button,label,select,textarea,a')) return;
-								setControlsCollapsed((v) => !v);
-							}}
-						>
-							<div>ORBIT PREDICTION</div>
-							<MagneticButton
-								className="controls-toggle-btn"
-								aria-label={controlsCollapsed ? "Expandir controles" : "Colapsar controles"}
-								onClick={() => setControlsCollapsed((v) => !v)}
-								style={{
-									border: "none",
-									background: "transparent",
-									cursor: "pointer",
-									fontSize: 12,
-									padding: 4,
-									color: "var(--muted)",
-								}}
-							>
-								{controlsCollapsed ? "▼" : "▲"}
-							</MagneticButton>
-						</div>
-						<div
-							style={{
-								overflow: "hidden",
-								transition: "max-height 220ms ease, opacity 180ms ease",
-								maxHeight: controlsCollapsed ? 0 : 420,
-								opacity: controlsCollapsed ? 0 : 1,
-								display: "flex",
-								flexDirection: "column",
-								gap: "12px"
-							}}
-						>
-						<div className="control-group">
-							<label htmlFor="prediction-range" style={{ minWidth: 48 }}>
-								TIME:
-							</label>
-							<input
-								id="prediction-range"
-								type="range"
-								min="10"
-								max="360"
-								value={predictionMinutes}
-								onChange={(e) => setPredictionMinutes(Number(e.target.value))}
-								style={{ flex: 1 }}
-							/>
-							<div style={{ width: 40, textAlign: "right", color: "var(--text-main)" }}>
-								{predictionMinutes}m
-							</div>
-						</div>
-						<div className="control-group" style={{ flexWrap: "wrap" }}>
-							<label style={{ minWidth: 48 }}>RES:</label>
-								<div style={{ display: "flex", gap: 4, flex: 1 }}>
-									{[ [60, 'LOW'], [120, 'MED'], [360, 'HIGH'] ].map(([val, label]) => {
-										const active = numSegments === val;
-										const activeColor = 'var(--accent)';
-										const inactiveColor = 'rgba(255,255,255,0.05)';
-										const activeBg = 'rgba(96, 165, 250, 0.1)';
-										const color = active ? 'var(--text-main)' : 'var(--muted)';
+							return (
+								<React.Fragment key={`${seg[0][0]}_${seg[0][1]}_${idx}`}>
+									<Polyline positions={seg} pathOptions={pathOptions} />
+									{seg.map((pt, j) => {
+										if (seg.length < 6) return null;
+										const step = Math.max(1, Math.floor(seg.length / 6));
+										const show = j % step === 0;
+										if (!show) return null;
+										const time = segmentTimes[idx]?.[j];
+										const key = `m-${seg[0][0]}_${seg[0][1]}_${j}_${idx}`;
 										return (
-											<MagneticButton
-												key={val}
-												onClick={() => setNumSegments(val)}
-												className="precision-btn"
-												style={{
-													padding: '4px 8px',
-													borderRadius: 4,
-													borderWidth: 1,
-													borderStyle: 'solid',
-													borderColor: active ? activeColor : inactiveColor,
-													boxSizing: 'border-box',
-													background: active ? activeBg : 'transparent',
-													color,
-													cursor: 'pointer',
-													outline: 'none',
-													transition: 'all 140ms ease',
-													flex: 1,
-													textAlign: 'center',
-													fontSize: '0.7rem',
-													letterSpacing: '0.1em'
+											<CircleMarker
+												key={key}
+												center={pt}
+												radius={4}
+												pathOptions={{
+													color: "transparent",
+													fillColor: segColor,
+													fillOpacity: 0.9,
 												}}
 											>
-												{label}
-											</MagneticButton>
+												{time && (
+													<Tooltip
+														direction="top"
+														offset={[0, -6]}
+														opacity={1}
+														permanent={false}
+													>
+														<div
+															style={{
+																fontSize: 14,
+																fontWeight: 600,
+																background: isLightMode
+																	? "rgba(255, 255, 255, 0.9)"
+																	: "rgba(11, 16, 32, 0.8)",
+																color: isLightMode
+																	? "#111"
+																	: "var(--text-main)",
+																border: isLightMode
+																	? "1px solid rgba(0,0,0,0.1)"
+																	: "1px solid rgba(255,255,255,0.1)",
+																backdropFilter: "blur(4px)",
+																padding: "4px 8px",
+																borderRadius: "4px",
+																boxShadow: isLightMode
+																	? "0 2px 8px rgba(0,0,0,0.1)"
+																	: "none",
+															}}
+														>
+															{new Date(time).toLocaleString()}
+														</div>
+													</Tooltip>
+												)}
+											</CircleMarker>
 										);
 									})}
-								</div>
-							{numSegments >= 360 && (
-								<div style={{ width: "100%", marginTop: 4, fontSize: "0.65rem", color: "#f59e0b", textTransform: "uppercase", letterSpacing: "0.1em" }}>
-									HIGH RES MAY IMPACT PERFORMANCE
-								</div>
-							)}
-						</div>
-						<div
-							className="control-group"
-							style={{
-								marginTop: 4,
-								flexWrap: "wrap",
-								gap: "10px"
-							}}
-						>
-								<label
-									style={{ display: "flex", gap: 6, alignItems: "center", cursor: "pointer" }}
-									htmlFor="follow-toggle"
+								</React.Fragment>
+							);
+						})}
+						<FollowController
+							lat={latitude}
+							lon={longitude}
+							follow={follow}
+							setFollow={setFollow}
+							ignoreRef={ignoreInteractionRef}
+							onUserInteraction={handleMapUserInteraction}
+						/>
+						<CenterMap latitude={latitude} longitude={longitude} />
+						{/* Controls / legend fixed inside map (top-right) */}
+						<aside id="iss-controls" aria-label="Controles de trayectoria">
+							<button
+								type="button"
+								className="control-group control-group-header"
+								style={{
+									justifyContent: "space-between",
+									alignItems: "center",
+									width: "100%",
+									marginBottom: 4,
+									cursor: "pointer",
+									background: "transparent",
+									border: "none",
+									color: "inherit",
+									fontFamily: "inherit",
+									textAlign: "left",
+								}}
+								onClick={(e) => {
+									// Don't toggle when interacting with inputs, buttons, links, or labels
+									if (
+										e.target.closest?.(
+											"input,button,label,select,textarea,a",
+										) &&
+										!e.target.closest?.(".control-group-header")
+									)
+										return;
+									setControlsCollapsed((v) => !v);
+								}}
+							>
+								<div>ORBIT PREDICTION</div>
+								<MagneticButton
+									className="controls-toggle-btn"
+									aria-label={
+										controlsCollapsed
+											? "Expandir controles"
+											: "Colapsar controles"
+									}
+									onClick={() => setControlsCollapsed((v) => !v)}
+									style={{
+										border: "none",
+										background: "transparent",
+										cursor: "pointer",
+										fontSize: 12,
+										padding: 4,
+										color: "var(--muted)",
+									}}
 								>
+									{controlsCollapsed ? "▼" : "▲"}
+								</MagneticButton>
+							</button>
+							<div
+								style={{
+									overflow: "hidden",
+									transition: "max-height 220ms ease, opacity 180ms ease",
+									maxHeight: controlsCollapsed ? 0 : 420,
+									opacity: controlsCollapsed ? 0 : 1,
+									display: "flex",
+									flexDirection: "column",
+									gap: "12px",
+								}}
+							>
+								<div className="control-group">
+									<label htmlFor="prediction-range" style={{ minWidth: 48 }}>
+										TIME:
+									</label>
 									<input
-										type="checkbox"
-										id="follow-toggle"
-										checked={follow}
-										onChange={(e) => {
-											// manual toggle: clear any pending auto-reactivate timer
-											if (reenableTimerRef.current) {
-												clearTimeout(reenableTimerRef.current);
-												reenableTimerRef.current = null;
-											}
-											setFollow(e.target.checked);
+										id="prediction-range"
+										type="range"
+										min="10"
+										max="360"
+										value={predictionMinutes}
+										onChange={(e) =>
+											setPredictionMinutes(Number(e.target.value))
+										}
+										style={{ flex: 1 }}
+									/>
+									<div
+										style={{
+											width: 40,
+											textAlign: "right",
+											color: "var(--text-main)",
 										}}
-									/>
-									<span>TRACK ISS</span>
-								</label>
-								<label style={{ display: "flex", gap: 6, alignItems: "center", cursor: "pointer" }} htmlFor="auto-reenable">
-									<input
-										type="checkbox"
-										id="auto-reenable"
-										checked={autoReenable}
-										onChange={(e) => setAutoReenable(e.target.checked)}
-									/>
-									<span>AUTO-RESUME</span>
-								</label>
-								<div style={{ width: "100%", marginTop: 4 }}>
-									<CenterOnISSButton lat={latitude} lon={longitude} isLightMode={isLightMode} />
+									>
+										{predictionMinutes}m
+									</div>
 								</div>
-								<div style={{ width: "100%", fontSize: "0.65rem", color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.1em", textAlign: "center", marginTop: "4px" }}>
-									PAST TRAJECTORY: {pastMinutes} MIN
+								<div className="control-group" style={{ flexWrap: "wrap" }}>
+									<span style={{ minWidth: 48, fontWeight: "bold" }}>RES:</span>
+									<div style={{ display: "flex", gap: 4, flex: 1 }}>
+										{[
+											[60, "LOW"],
+											[120, "MED"],
+											[360, "HIGH"],
+										].map(([val, label]) => {
+											const active = numSegments === val;
+											const activeColor = "var(--accent)";
+											const inactiveColor = "rgba(255,255,255,0.05)";
+											const activeBg = "rgba(96, 165, 250, 0.1)";
+											const color = active
+												? "var(--text-main)"
+												: "var(--muted)";
+											return (
+												<MagneticButton
+													key={val}
+													onClick={() => setNumSegments(val)}
+													className="precision-btn"
+													style={{
+														padding: "4px 8px",
+														borderRadius: 4,
+														borderWidth: 1,
+														borderStyle: "solid",
+														borderColor: active ? activeColor : inactiveColor,
+														boxSizing: "border-box",
+														background: active ? activeBg : "transparent",
+														color,
+														cursor: "pointer",
+														outline: "none",
+														transition: "all 140ms ease",
+														flex: 1,
+														textAlign: "center",
+														fontSize: "0.7rem",
+														letterSpacing: "0.1em",
+													}}
+												>
+													{label}
+												</MagneticButton>
+											);
+										})}
+									</div>
+									{numSegments >= 360 && (
+										<div
+											style={{
+												width: "100%",
+												marginTop: 4,
+												fontSize: "0.65rem",
+												color: "#f59e0b",
+												textTransform: "uppercase",
+												letterSpacing: "0.1em",
+											}}
+										>
+											HIGH RES MAY IMPACT PERFORMANCE
+										</div>
+									)}
+								</div>
+								<div
+									className="control-group"
+									style={{
+										marginTop: 4,
+										flexWrap: "wrap",
+										gap: "10px",
+									}}
+								>
+									<label
+										style={{
+											display: "flex",
+											gap: 6,
+											alignItems: "center",
+											cursor: "pointer",
+										}}
+										htmlFor="follow-toggle"
+									>
+										<input
+											type="checkbox"
+											id="follow-toggle"
+											checked={follow}
+											onChange={(e) => {
+												// manual toggle: clear any pending auto-reactivate timer
+												if (reenableTimerRef.current) {
+													clearTimeout(reenableTimerRef.current);
+													reenableTimerRef.current = null;
+												}
+												setFollow(e.target.checked);
+											}}
+										/>
+										<span>TRACK ISS</span>
+									</label>
+									<label
+										style={{
+											display: "flex",
+											gap: 6,
+											alignItems: "center",
+											cursor: "pointer",
+										}}
+										htmlFor="auto-reenable"
+									>
+										<input
+											type="checkbox"
+											id="auto-reenable"
+											checked={autoReenable}
+											onChange={(e) => setAutoReenable(e.target.checked)}
+										/>
+										<span>AUTO-RESUME</span>
+									</label>
+									<div style={{ width: "100%", marginTop: 4 }}>
+										<CenterOnISSButton
+											lat={latitude}
+											lon={longitude}
+											isLightMode={isLightMode}
+										/>
+									</div>
+									<div
+										style={{
+											width: "100%",
+											fontSize: "0.65rem",
+											color: "var(--muted)",
+											textTransform: "uppercase",
+											letterSpacing: "0.1em",
+											textAlign: "center",
+											marginTop: "4px",
+										}}
+									>
+										PAST TRAJECTORY: {pastMinutes} MIN
+									</div>
 								</div>
 							</div>
-						</div>
-					</aside>
-					<ControlsOverlay asideId="iss-controls" ignoreRef={ignoreInteractionRef} />
-				</MapContainer>
+						</aside>
+						<ControlsOverlay
+							asideId="iss-controls"
+							ignoreRef={ignoreInteractionRef}
+						/>
+					</MapContainer>
 				</div>
 			)}
 		</>
