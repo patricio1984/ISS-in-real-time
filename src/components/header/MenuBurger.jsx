@@ -28,7 +28,7 @@ const MenuBurger = () => {
 	return (
 		<>
 			<button
-				className={`menu-toggle-btn ${menuOpen ? 'is-open' : ''}`}
+				className={`menu-toggle-btn ${menuOpen ? "is-open" : ""}`}
 				type="button"
 				aria-label={menuOpen ? "Close menu" : "Open menu"}
 				aria-expanded={menuOpen}
@@ -39,11 +39,11 @@ const MenuBurger = () => {
 				<span className="menu-bar bottom-bar" />
 			</button>
 
-			<div className={`menu-overlay ${menuOpen ? 'is-open' : ''}`}>
+			<div className={`menu-overlay ${menuOpen ? "is-open" : ""}`}>
 				<div className="menu-overlay-bg"></div>
 				<nav className="menu-content">
 					<ul className="menu-list">
-						<li className="menu-item-wrapper" style={{ '--delay': '0.1s' }}>
+						<li className="menu-item-wrapper" style={{ "--delay": "0.1s" }}>
 							<DarkModeToggle
 								ariaLabel="Toggle color scheme"
 								mode={mode}
@@ -64,7 +64,7 @@ const MenuBurger = () => {
 							/>
 						</li>
 
-						<li className="menu-item-wrapper" style={{ '--delay': '0.2s' }}>
+						<li className="menu-item-wrapper" style={{ "--delay": "0.2s" }}>
 							<a
 								className="menu-link"
 								href="https://www.linkedin.com/in/patriciomainero/"
@@ -75,7 +75,7 @@ const MenuBurger = () => {
 							</a>
 						</li>
 
-						<li className="menu-item-wrapper" style={{ '--delay': '0.3s' }}>
+						<li className="menu-item-wrapper" style={{ "--delay": "0.3s" }}>
 							<a
 								className="menu-link"
 								href="https://patricio1984.github.io/port/"
@@ -86,7 +86,7 @@ const MenuBurger = () => {
 							</a>
 						</li>
 
-						<li className="menu-item-wrapper" style={{ '--delay': '0.4s' }}>
+						<li className="menu-item-wrapper" style={{ "--delay": "0.4s" }}>
 							<a
 								className="menu-link"
 								href="https://github.com/patricio1984"

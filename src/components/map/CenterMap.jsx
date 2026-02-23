@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useMap } from "react-leaflet";
 
-
 const CenterMap = ({ latitude, longitude }) => {
 	const map = useMap();
 

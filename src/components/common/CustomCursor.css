@@ -41,12 +41,15 @@
 	pointer-events: none;
 	z-index: 99999; /* Increased z-index to be above Leaflet */
 	margin: -16px 0 0 -16px; /* Offset by half size to center */
-	box-shadow: 0 0 12px rgba(96, 165, 250, 0.15), inset 0 0 12px rgba(96, 165, 250, 0.1);
-	transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1), 
-				height 0.3s cubic-bezier(0.22, 1, 0.36, 1), 
-				margin 0.3s cubic-bezier(0.22, 1, 0.36, 1), 
-				background-color 0.3s ease, 
-				border-color 0.3s ease;
+	box-shadow:
+		0 0 12px rgba(96, 165, 250, 0.15),
+		inset 0 0 12px rgba(96, 165, 250, 0.1);
+	transition:
+		width 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+		height 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+		margin 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+		background-color 0.3s ease,
+		border-color 0.3s ease;
 	will-change: transform, width, height;
 	display: flex;
 	justify-content: center;
@@ -60,13 +63,29 @@
 	transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.crosshair.top, .crosshair.bottom { width: 1px; height: 4px; }
-.crosshair.left, .crosshair.right { width: 4px; height: 1px; }
+.crosshair.top,
+.crosshair.bottom {
+	width: 1px;
+	height: 4px;
+}
+.crosshair.left,
+.crosshair.right {
+	width: 4px;
+	height: 1px;
+}
 
-.crosshair.top { top: -4px; }
-.crosshair.bottom { bottom: -4px; }
-.crosshair.left { left: -4px; }
-.crosshair.right { right: -4px; }
+.crosshair.top {
+	top: -4px;
+}
+.crosshair.bottom {
+	bottom: -4px;
+}
+.crosshair.left {
+	left: -4px;
+}
+.crosshair.right {
+	right: -4px;
+}
 
 /* Hover State (Interactive Elements) */
 .custom-cursor-ring.is-hovering {
@@ -75,13 +94,27 @@
 	margin: -24px 0 0 -24px;
 	background-color: rgba(96, 165, 250, 0.05);
 	border-color: rgba(96, 165, 250, 0.8);
-	box-shadow: 0 0 16px rgba(96, 165, 250, 0.3), inset 0 0 8px rgba(96, 165, 250, 0.2);
+	box-shadow:
+		0 0 16px rgba(96, 165, 250, 0.3),
+		inset 0 0 8px rgba(96, 165, 250, 0.2);
 }
 
-.custom-cursor-ring.is-hovering .crosshair.top { top: -6px; height: 6px; }
-.custom-cursor-ring.is-hovering .crosshair.bottom { bottom: -6px; height: 6px; }
-.custom-cursor-ring.is-hovering .crosshair.left { left: -6px; width: 6px; }
-.custom-cursor-ring.is-hovering .crosshair.right { right: -6px; width: 6px; }
+.custom-cursor-ring.is-hovering .crosshair.top {
+	top: -6px;
+	height: 6px;
+}
+.custom-cursor-ring.is-hovering .crosshair.bottom {
+	bottom: -6px;
+	height: 6px;
+}
+.custom-cursor-ring.is-hovering .crosshair.left {
+	left: -6px;
+	width: 6px;
+}
+.custom-cursor-ring.is-hovering .crosshair.right {
+	right: -6px;
+	width: 6px;
+}
 
 /* Click State */
 .custom-cursor-ring.is-clicking {

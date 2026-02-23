@@ -468,8 +468,8 @@ const ISSMap = ({ latitude, longitude, tleLine1, tleLine2 }) => {
 					<MapContainer
 						className="map-container"
 						center={[latitude, longitude]}
-						zoom={3}
-						minZoom={2.5}
+						zoom={4}
+						minZoom={3}
 						worldCopyJump={false}
 						maxBounds={[
 							[-90, -180],

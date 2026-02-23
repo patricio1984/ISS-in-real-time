@@ -10,7 +10,9 @@
 	justify-content: center;
 	align-items: center;
 	color: #e6eef8;
-	transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1), visibility 1.2s;
+	transition:
+		opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+		visibility 1.2s;
 	visibility: visible;
 	opacity: 1;
 }
@@ -36,7 +38,7 @@
 }
 
 .loading-title {
-	font-family: 'Space Grotesk', sans-serif;
+	font-family: "Space Grotesk", sans-serif;
 	font-size: 2rem;
 	font-weight: 500;
 	letter-spacing: 0.15em;
@@ -46,7 +48,7 @@
 }
 
 .loading-subtitle {
-	font-family: 'JetBrains Mono', monospace;
+	font-family: "JetBrains Mono", monospace;
 	font-size: 0.75rem;
 	font-weight: 400;
 	color: #60a5fa;
@@ -77,12 +79,16 @@
 }
 
 @keyframes scan {
-	0% { left: -100%; }
-	100% { left: 200%; }
+	0% {
+		left: -100%;
+	}
+	100% {
+		left: 200%;
+	}
 }
 
 .loading-message {
-	font-family: 'JetBrains Mono', monospace;
+	font-family: "JetBrains Mono", monospace;
 	font-size: 0.85rem;
 	font-weight: 400;
 	color: #94a3b8;
@@ -93,6 +99,10 @@
 }
 
 @keyframes text-fade {
-	0% { opacity: 0.6; }
-	100% { opacity: 1; }
+	0% {
+		opacity: 0.6;
+	}
+	100% {
+		opacity: 1;
+	}
 }

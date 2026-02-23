@@ -37,15 +37,25 @@ const App = () => {
 					}) => (
 						<>
 							<LoadingScreen isLoading={isLoading} />
-							
-							<div className="story-container" style={{ opacity: isLoading ? 0 : 1, transition: 'opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1)' }}>
+
+							<div
+								className="story-container"
+								style={{
+									opacity: isLoading ? 0 : 1,
+									transition: "opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1)",
+								}}
+							>
 								<section id="hero" className="scene--edge">
 									<FadeInUp delay={100}>
 										<Hero latitude={latitude} longitude={longitude} />
 									</FadeInUp>
 								</section>
 
-								<section id="map" className="scene--edge" style={{ width: '100%' }}>
+								<section
+									id="map"
+									className="scene--edge"
+									style={{ width: "100%" }}
+								>
 									<FadeInUp delay={120}>
 										<ISSMap
 											latitude={latitude}
