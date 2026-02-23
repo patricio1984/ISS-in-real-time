@@ -269,7 +269,7 @@ const ISSMarker = ({ latitude, longitude }) => {
 
 	const customIcon = L.divIcon({
 		className: "iss-marker-container",
-		html: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+		html: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="ISS Location" role="img">
 			<!-- Outer pulsing halo -->
 			<circle cx="50" cy="50" r="45" fill="var(--accent)" opacity="0.15" class="iss-pulse" />
 			<!-- Radar ring -->
@@ -286,7 +286,7 @@ const ISSMarker = ({ latitude, longitude }) => {
 		iconAnchor: [size / 2, size / 2],
 	});
 
-	return <Marker position={[latitude, longitude]} icon={customIcon} />;
+	return <Marker position={[latitude, longitude]} icon={customIcon} interactive={false} alt="ISS Location" title="ISS Location" />;
 };
 
 const ISSMap = ({ latitude, longitude, tleLine1, tleLine2 }) => {

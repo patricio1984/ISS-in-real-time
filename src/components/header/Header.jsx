@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const Header = () => {
+const Header = ({ isLoading }) => {
 	const [scrolled, setScrolled] = useState(false);
 	const [hidden, setHidden] = useState(false);
 
@@ -26,6 +26,8 @@ const Header = () => {
 		window.addEventListener("scroll", handleScroll, { passive: true });
 		return () => window.removeEventListener("scroll", handleScroll);
 	}, []);
+
+	if (isLoading) return null;
 
 	return (
 		<header

@@ -19,29 +19,29 @@ const App = () => {
 			<Particles />
 			<SkipToContentLink />
 
-			<MenuBurger />
+			<ISSDataProvider>
+				{({
+					isLoading,
+					latitude,
+					longitude,
+					timestamp,
+					velocity,
+					altitude,
+					tleLine1,
+					tleLine2,
+				}) => (
+					<>
+						<MenuBurger isLoading={isLoading} />
+						<Header isLoading={isLoading} />
 
-			<Header />
-
-			<main id="main" className="main wrapper">
-				<ISSDataProvider>
-					{({
-						isLoading,
-						latitude,
-						longitude,
-						timestamp,
-						velocity,
-						altitude,
-						tleLine1,
-						tleLine2,
-					}) => (
-						<>
+						<main id="main" className="main wrapper">
 							<LoadingScreen isLoading={isLoading} />
 
 							<div
 								className="story-container"
 								style={{
 									opacity: isLoading ? 0 : 1,
+									pointerEvents: isLoading ? "none" : "auto",
 									transition: "opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1)",
 								}}
 							>
@@ -78,16 +78,16 @@ const App = () => {
 									</FadeInUp>
 								</section>
 							</div>
-						</>
-					)}
-				</ISSDataProvider>
 
-				<footer className="ISSFooterData">
-					<FadeInUp delay={500}>
-						<ISSFooterData />
-					</FadeInUp>
-				</footer>
-			</main>
+							<footer className="ISSFooterData">
+								<FadeInUp delay={500}>
+									<ISSFooterData />
+								</FadeInUp>
+							</footer>
+						</main>
+					</>
+				)}
+			</ISSDataProvider>
 		</>
 	);
 };
