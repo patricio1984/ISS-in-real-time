@@ -300,31 +300,92 @@ const FollowController = ({
 	return null;
 };
 
-const ISSMarker = ({ latitude, longitude }) => {
+const ISSMarker = ({ latitude, longitude, isLightMode }) => {
 	const map = useMap();
 	const [zoom, setZoom] = useState(map.getZoom());
+	const prevPos = useRef([latitude, longitude]);
+	const [heading, setHeading] = useState(90); // Default to 90 (East) as ISS generally moves Eastward
 
 	useMapEvents({
 		zoomend: () => setZoom(map.getZoom()),
 	});
 
-	// Adaptive scaling: base size 48, grows slightly as you zoom in
-	const size = Math.max(48, zoom * 12);
+	useEffect(() => {
+		const [prevLat, prevLon] = prevPos.current;
+		if (prevLat !== latitude || prevLon !== longitude) {
+			const lat1 = (prevLat * Math.PI) / 180;
+			const lat2 = (latitude * Math.PI) / 180;
+			const dLon = ((longitude - prevLon) * Math.PI) / 180;
+
+			const y = Math.sin(dLon) * Math.cos(lat2);
+			const x =
+				Math.cos(lat1) * Math.sin(lat2) -
+				Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+			let brng = (Math.atan2(y, x) * 180) / Math.PI;
+			brng = (brng + 360) % 360;
+
+			// Update heading if we moved enough to get a reliable angle
+			if (
+				Math.abs(prevLat - latitude) > 0.00001 ||
+				Math.abs(prevLon - longitude) > 0.00001
+			) {
+				setHeading(brng);
+				prevPos.current = [latitude, longitude];
+			}
+		}
+	}, [latitude, longitude]);
+
+	// Adaptive scaling: base size 56, grows non-linearly to maintain crispness
+	const size = Math.max(56, 56 + (zoom - 3) * 6);
 
 	const customIcon = L.divIcon({
 		className: "iss-marker-container",
 		html: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="ISS Location" role="img">
-			<!-- Outer pulsing halo -->
-			<circle cx="50" cy="50" r="45" fill="var(--accent)" opacity="0.15" class="iss-pulse" />
-			<!-- Radar ring -->
-			<circle cx="50" cy="50" r="25" fill="none" stroke="var(--accent)" stroke-width="1" opacity="0.5" stroke-dasharray="2 4" />
-			<!-- Crosshair -->
-			<path d="M 50 15 L 50 85 M 15 50 L 85 50" stroke="var(--accent)" stroke-width="1" opacity="0.3" />
-			<!-- Solar Panels -->
-			<rect x="28" y="42" width="18" height="16" fill="var(--accent)" rx="1" />
-			<rect x="54" y="42" width="18" height="16" fill="var(--accent)" rx="1" />
-			<!-- Central Module -->
-			<rect x="45" y="32" width="10" height="36" fill="#ffffff" rx="2" style="filter: drop-shadow(0 0 4px rgba(255,255,255,0.8))" />
+			<defs>
+				<style>
+					.spin-slow { transform-origin: 50px 50px; animation: spin-slow 80s linear infinite; }
+					.spin-slow-reverse { transform-origin: 50px 50px; animation: spin-slow 120s linear infinite reverse; }
+					.breathe-soft { transform-origin: 50px 50px; animation: breathe-soft 6s ease-in-out infinite; }
+					.iss-directional { transform-origin: 50px 50px; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1); }
+					@keyframes spin-slow { 100% { transform: rotate(360deg); } }
+					@keyframes breathe-soft {
+						0%, 100% { opacity: ${isLightMode ? 0.25 : 0.1}; transform: scale(0.95); }
+						50% { opacity: ${isLightMode ? 0.5 : 0.25}; transform: scale(1.02); }
+					}
+				</style>
+				<filter id="soft-glow" x="-20%" y="-20%" width="140%" height="140%">
+					<feGaussianBlur stdDeviation="3" result="blur" />
+					${isLightMode ? '<feColorMatrix type="saturate" values="1.5" result="saturatedBlur"/>' : ''}
+					<feComposite in="SourceGraphic" in2="${isLightMode ? 'saturatedBlur' : 'blur'}" operator="over" />
+				</filter>
+			</defs>
+
+			<!-- Smooth breathing radial glow -->
+			<circle cx="50" cy="50" r="16" fill="var(--accent)" class="breathe-soft" filter="url(#soft-glow)" />
+
+			<!-- Outer rotating rings (Cinematic & Subtle, reduced size by 15%) -->
+			<circle cx="50" cy="50" r="37" fill="none" stroke="var(--accent)" stroke-width="0.5" opacity="${isLightMode ? 0.3 : 0.15}" />
+			<circle cx="50" cy="50" r="32" fill="none" stroke="var(--accent)" stroke-width="0.75" stroke-dasharray="4 16" opacity="${isLightMode ? 0.4 : 0.25}" class="spin-slow" />
+			<circle cx="50" cy="50" r="27" fill="none" stroke="var(--accent)" stroke-width="0.5" stroke-dasharray="2 8" opacity="${isLightMode ? 0.5 : 0.3}" class="spin-slow-reverse" />
+
+			<!-- Directional Group (Rotated via CSS) -->
+			<g class="iss-directional" style="transform: rotate(${heading}deg);">
+				<!-- Directional Chevron -->
+				<path d="M 46 16 L 50 10 L 54 16" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7" />
+				
+				<!-- Minimal ISS Silhouette -->
+				<!-- Main Truss -->
+				<line x1="22" y1="50" x2="78" y2="50" stroke="${isLightMode ? '#111' : '#fff'}" stroke-width="1" opacity="0.8" />
+				
+				<!-- Solar Arrays -->
+				<rect x="26" y="42" width="6" height="16" fill="none" stroke="${isLightMode ? '#111' : '#fff'}" stroke-width="1.5" rx="0.5" />
+				<rect x="34" y="42" width="6" height="16" fill="none" stroke="${isLightMode ? '#111' : '#fff'}" stroke-width="1.5" rx="0.5" />
+				<rect x="60" y="42" width="6" height="16" fill="none" stroke="${isLightMode ? '#111' : '#fff'}" stroke-width="1.5" rx="0.5" />
+				<rect x="68" y="42" width="6" height="16" fill="none" stroke="${isLightMode ? '#111' : '#fff'}" stroke-width="1.5" rx="0.5" />
+				
+				<!-- Central Modules -->
+				<rect x="47" y="36" width="6" height="28" fill="${isLightMode ? '#111' : '#fff'}" rx="1" />
+			</g>
 		</svg>`,
 		iconSize: [size, size],
 		iconAnchor: [size / 2, size / 2],
@@ -543,7 +604,7 @@ const ISSMap = ({ latitude, longitude, tleLine1, tleLine2 }) => {
 							detectRetina={true}
 							noWrap={true}
 						/>
-						<ISSMarker latitude={latitude} longitude={longitude} />
+						<ISSMarker latitude={latitude} longitude={longitude} isLightMode={isLightMode} />
 						{segments.map((seg, idx) => {
 							if (!(seg.length > 1)) return null;
 
@@ -552,8 +613,8 @@ const ISSMap = ({ latitude, longitude, tleLine1, tleLine2 }) => {
 							const segColor = isFuture ? "var(--accent)" : "var(--muted)"; // accent for future, muted for past
 							const pathOptions = {
 								color: segColor,
-								weight: 3,
-								opacity: 0.95,
+								weight: 2,
+								opacity: 0.6,
 								className: isFuture ? "leaflet-interactive" : "", // Add glowing animation class to future path
 							};
 
@@ -571,11 +632,11 @@ const ISSMap = ({ latitude, longitude, tleLine1, tleLine2 }) => {
 											<CircleMarker
 												key={key}
 												center={pt}
-												radius={4}
+												radius={3}
 												pathOptions={{
 													color: "transparent",
 													fillColor: segColor,
-													fillOpacity: 0.9,
+													fillOpacity: 0.6,
 												}}
 											>
 												{time && (
