@@ -529,7 +529,17 @@ const ISSMap = ({ latitude, longitude, tleLine1, tleLine2 }) => {
 													opacity={1}
 													permanent={false}
 												>
-													<div style={{ fontSize: 14, fontWeight: 600, background: "rgba(11, 16, 32, 0.8)", color: "var(--text-main)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(4px)", padding: "4px 8px", borderRadius: "4px" }}>
+													<div style={{ 
+														fontSize: 14, 
+														fontWeight: 600, 
+														background: isLightMode ? "rgba(255, 255, 255, 0.9)" : "rgba(11, 16, 32, 0.8)", 
+														color: isLightMode ? "#111" : "var(--text-main)", 
+														border: isLightMode ? "1px solid rgba(0,0,0,0.1)" : "1px solid rgba(255,255,255,0.1)", 
+														backdropFilter: "blur(4px)", 
+														padding: "4px 8px", 
+														borderRadius: "4px",
+														boxShadow: isLightMode ? "0 2px 8px rgba(0,0,0,0.1)" : "none"
+													}}>
 														{new Date(time).toLocaleString()}
 													</div>
 												</Tooltip>
