@@ -689,9 +689,44 @@ p { font-size: clamp(1.6rem, 2vw, 1.8rem); line-height: 1.6; }
 	.btn{font-size:13px}
 }
 
-/* hide center button label on very small screens */
-@media (max-width:420px){
+/* hide center button label on very small screens (only very narrow devices) */
+@media (max-width:360px){
 	.center-btn .btn-label{display:none}
+}
+
+/* For small screens, keep the collapsible controls row-oriented so items don't wrap awkwardly */
+@media (max-width:640px) {
+	/* Target the direct child div that holds the collapsible controls (it uses inline styles) */
+	#iss-controls > div[style] {
+		display: flex !important;
+		flex-direction: row !important;
+		flex-wrap: wrap !important;
+		gap: 8px !important;
+		align-items: center !important;
+	}
+}
+
+/* Ensure the orbit prediction header stays on one line and the chevron doesn't wrap */
+#iss-controls .control-group.control-group-header{
+	display:flex;
+	flex-wrap:nowrap;
+	align-items:center;
+	gap:8px;
+}
+
+/* Make the chevron toggle take only the necessary space so it won't force a wrap */
+#iss-controls .controls-toggle-btn{
+	flex:0 0 auto;
+	padding:4px 6px;
+	min-width:unset;
+}
+
+/* Ensure the zoom-out (minus) button shows a bottom border consistently */
+.leaflet-control-zoom a:last-child{
+	border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.light-mode .leaflet-control-zoom a:last-child{
+	border-bottom: 1px solid rgba(0,0,0,0.06);
 }
 
 .telemetry-bar {

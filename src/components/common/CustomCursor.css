@@ -106,3 +106,16 @@
 		cursor: auto !important;
 	}
 }
+
+/* Fallback: explicitly hide custom cursor on small and medium viewports (mobile + tablets)
+   Some devices report pointer/hover capabilities oddly; use viewport width to ensure hiding */
+@media (max-width: 1024px) {
+	.custom-cursor-dot,
+	.custom-cursor-ring {
+		display: none !important;
+	}
+	/* Restore default cursor for all elements */
+	* {
+		cursor: auto !important;
+	}
+}
